@@ -22,4 +22,4 @@ jobs:
           title: "Auto PR from ${{ github.ref }} to dev"
           body: "Cette PR a été créée automatiquement depuis la branche ${{ github.ref }}."
           labels: "automated-pr"
-          draft: false 
+          draft: true 
