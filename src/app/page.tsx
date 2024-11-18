@@ -1,9 +1,14 @@
 import { NavbarAuth } from "./components";
+import { SidebarAuthentification } from './components'
 
-export default function Home() {
+
+
+export default async function Home() {
+
   return (
     <div>
       <NavbarAuth />
+      <SidebarAuthentification />
       <p>HomePage</p>
     </div>
   );
