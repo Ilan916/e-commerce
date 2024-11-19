@@ -9,7 +9,6 @@ export default async function Home() {
     <div>
       <NavbarAuth />
       <SidebarAuthentification />
-      <p>HomePage</p>
     </div>
   );
 }

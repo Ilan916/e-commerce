@@ -29,8 +29,8 @@ export default function NavbarAuth() {
         // Utilisateur non connecté
 
         <div className='flex gap-1 group'>
-          <FaRegUser className='text-slate-500 group-hover:text-blue-500' />
-          <Link className='text-xs font-sans font-semibold text-slate-500 group-hover:text-blue-500' href='/connexion'>
+          <FaRegUser className='text-slate-500 group-hover:text-slate-700' />
+          <Link className='text-xs font-sans font-semibold text-slate-500 group-hover:text-slate-700' href='/connexion'>
             Se connecter
           </Link>
         </div>
