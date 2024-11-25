@@ -1,7 +1,4 @@
-import { NavbarAuth } from "./components";
-import { SidebarAuthentification } from './components'
-
-
+import { NavbarAuth, SidebarAuthentification } from "./components";
 
 export default async function Home() {
 
