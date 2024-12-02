@@ -1,4 +1,4 @@
-import { NavbarAuth, SidebarAuthentification } from "./components";
+import { NavbarAuth, SidebarAuthentification, ProductDisplay } from "./components";
 
 export default async function Home() {
 
@@ -6,6 +6,7 @@ export default async function Home() {
     <div>
       <NavbarAuth />
       <SidebarAuthentification />
+      <ProductDisplay />
     </div>
   );
 }
