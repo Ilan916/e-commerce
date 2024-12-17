@@ -20,7 +20,7 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
       <div className="w-full md:w-1/2">
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
         <p className="text-gray-700 mb-4">{product.description}</p>
-        <p className="text-3xl font-semibold text-blue-600 mb-4">${product.price.toFixed(2)}</p>
+        <p className="text-3xl font-semibold text-blue-600 mb-4">{product.price.toFixed(2)}€</p>
         <p className="text-gray-700 mb-4">Stock: {product.stock}</p>
         <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
           Ajouter au Panier
