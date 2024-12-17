@@ -3,6 +3,7 @@
 
 export { default as NavbarAuth } from './NavbarAuth/NavbarAuth';
 export { default as SidebarAuthentification } from './SidebarAuth/SidebarAuth';
+export { default as ProductDisplay } from './ProductsDisplay/ProductsDisplay';
 
 
 
@@ -10,3 +11,4 @@ export { default as SidebarAuthentification } from './SidebarAuth/SidebarAuth';
 
 export { default as AdminProductList } from './admin/AdminProductList/AdminProductList'
 export { default as AdminCreateProductForm } from './admin/AdminCreateProductForm/AdminCreateProductForm'
+
