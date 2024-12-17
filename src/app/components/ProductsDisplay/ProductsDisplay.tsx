@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Product {
-  id: number;
+  id: string; // Ensure the ID is a string
   name: string;
   imageUrl: string;
   price: number;
 }
 
 interface Category {
-  id: number;
+  id: string; // Ensure the ID is a string
   name: string;
 }
 
 export default function ProductsDisplay() {
+  const router = useRouter();
   const [products, setProducts] = useState<{ [key: number]: Product[] }>({});
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -95,6 +97,10 @@ export default function ProductsDisplay() {
     setSelectedCategory(event.target.value);
     setCurrentPage(1);
     setProducts({});
+  };
+
+  const handleViewProduct = (id: string) => {
+    router.push(`/product/${id}`);
   };
 
   const renderPageNumbers = () => {
@@ -214,6 +220,12 @@ export default function ProductsDisplay() {
               <div className="p-4">
                 <h2 className="text-xl font-semibold">{product.name}</h2>
                 <p className="text-gray-700">{product.price.toFixed(2)} €</p>
+                <button
+                  className="mt-4 w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-lg"
+                  onClick={() => handleViewProduct(product.id)}
+                >
+                  Voir les détails
+                </button>
                 <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                   Ajouter au Panier
                 </button>
@@ -242,3 +254,4 @@ export default function ProductsDisplay() {
     </div>
   );
 }
+
