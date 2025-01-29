@@ -14,7 +14,7 @@ export default function NavbarAuth() {
   const { openSidebar } = useSidebarAuth();
 
   return (
-    <div className='w-full h-9 pr-8 border-b-2 flex justify-end items-center border-gray-300 bg-gray-100'>
+    <div className='w-full h-9 pr-8 z-50 border-b-2 flex justify-end items-center border-gray-300 bg-gray-200'>
       {status === "authenticated" && session?.user ? (
         // Utilisateur connecté
         

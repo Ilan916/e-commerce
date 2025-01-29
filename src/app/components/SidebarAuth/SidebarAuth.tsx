@@ -22,7 +22,7 @@ export default function SidebarAuthentification() {
   if (!session?.user) return null;
 
   return (
-    <div className={`fixed top-0 right-0 w-full sm:w-80 h-full bg-gray-100 transform ${ isSidebarOpen ? "translate-x-0" : "translate-x-full" } transition-transform duration-300`}>
+    <div className={`fixed top-0 right-0 w-full z-50 sm:w-80 h-full bg-gray-100 transform ${ isSidebarOpen ? "translate-x-0" : "translate-x-full" } transition-transform duration-300`}>
       <div>
         <div className="flex items-center justify-end  pt-2 pr-4">
           <IoClose onClick={closeSidebar} className="w-9 h-9 text-slate-500 hover:text-slate-700 cursor-pointer"/>

@@ -1,4 +1,4 @@
-import { NavbarAuth, SidebarAuthentification, ProductDisplay } from "./components";
+import { NavbarAuth, SidebarAuthentification, NavbarClient, BannerHero, ServicesInfos, Footer, Newsletter, Testimonials, Tips, AIPromo } from "./components";
 
 export default async function Home() {
 
@@ -6,7 +6,14 @@ export default async function Home() {
     <div>
       <NavbarAuth />
       <SidebarAuthentification />
-      <ProductDisplay />
+      <NavbarClient />
+      <BannerHero />
+      <ServicesInfos />
+      <AIPromo />
+      <Tips/>
+      <Testimonials />
+      <Newsletter />
+      <Footer />
     </div>
   );
 }
