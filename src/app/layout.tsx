@@ -22,7 +22,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="bg-gray-50">
         <Providers>
           <SidebarProvider>
             {children}
