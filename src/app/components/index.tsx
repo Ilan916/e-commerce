@@ -21,4 +21,5 @@ export { default as AIPromo } from './AIPromo/AIPromo'
 
 export { default as AdminProductList } from './admin/AdminProductList/AdminProductList'
 export { default as AdminCreateProductForm } from './admin/AdminCreateProductForm/AdminCreateProductForm'
+export { default as AdminLayout } from './admin/AdminLayout/AdminLayout'
 
