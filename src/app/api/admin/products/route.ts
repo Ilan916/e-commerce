@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, description, price, stock, imageUrl, categoryId } = body;
 
-    // Validation des données
+    // Vérification des champs obligatoires
     if (!name || !description || !price || !stock || !categoryId) {
       return NextResponse.json(
         { error: "Tous les champs requis ne sont pas fournis" },
@@ -14,6 +14,16 @@ export async function POST(req: Request) {
       );
     }
 
+    // Vérifier si la catégorie existe
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+    });
+
+    if (!category) {
+      return NextResponse.json({ error: "Catégorie introuvable" }, { status: 400 });
+    }
+
+    // Création du produit
     const product = await prisma.product.create({
       data: {
         name,
@@ -21,13 +31,13 @@ export async function POST(req: Request) {
         price: parseFloat(price),
         stock: parseInt(stock, 10),
         imageUrl,
-        category: { connect: { id: categoryId } }, // Liaison avec la catégorie
+        category: { connect: { id: categoryId } },
       },
     });
 
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    console.error("Erreur création produit :", error);
+    console.error("❌ Erreur lors de la création du produit :", error);
     return NextResponse.json(
       { error: "Erreur lors de la création du produit" },
       { status: 500 }

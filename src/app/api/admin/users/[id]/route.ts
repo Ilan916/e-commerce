@@ -59,3 +59,41 @@ export async function GET(
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
+
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+  try {
+    const { role } = await req.json(); // Récupération du rôle depuis le body
+    if (!["CLIENT", "ADMIN"].includes(role)) {
+      return NextResponse.json({ error: "Rôle invalide" }, { status: 400 });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: params.id },
+      data: { role },
+    });
+
+    return NextResponse.json(updatedUser);
+  } catch (error) {
+    console.error("❌ Erreur lors de la modification du rôle :", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
+    }
+
+    await prisma.user.delete({ where: { id: params.id } });
+
+    return NextResponse.json({ message: "Utilisateur supprimé avec succès" });
+  } catch (error) {
+    console.error("❌ Erreur API suppression utilisateur :", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
+}
