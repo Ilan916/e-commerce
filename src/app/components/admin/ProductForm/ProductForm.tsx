@@ -95,7 +95,7 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
         <input
           type="text"
           name="imageUrl"
-          value={formData.imageUrl}
+          value={formData.imageUrl ?? ""}
           onChange={handleChange}
           className="w-full border px-3 py-2 rounded"
         />

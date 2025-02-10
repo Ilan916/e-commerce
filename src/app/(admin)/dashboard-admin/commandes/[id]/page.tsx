@@ -53,10 +53,12 @@ export default function AdminOrderDetailPage() {
           onChange={(e) => updateOrderStatus(e.target.value)}
           className="border p-2 rounded"
         >
-          <option value="En cours">En cours</option>
-          <option value="Expédiée">Expédiée</option>
-          <option value="Livrée">Livrée</option>
-          <option value="Annulée">Annulée</option>
+          <option value="EN_COURS">En cours</option>
+          <option value="PAYEE">Payée</option>
+          <option value="EN_PREPARATION">En préparation</option>
+          <option value="EXPEDIEE">Expédiée</option>
+          <option value="LIVREE">Livrée</option>
+          <option value="ANNULEE">Annulée</option>
         </select>
       </div>
 

@@ -8,95 +8,97 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  lastname      String?
-  firstname     String?
-  email         String          @unique
+  id            String         @id @default(cuid())
+  email         String         @unique
   emailVerified DateTime?
-  password      String
   image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  firstname     String?
+  lastname      String?
+  address       String?
   dateOfBirth   DateTime?
   phoneNumber   String?
-  address       String?
-  role          Role            @default(CLIENT)  // Ajout du champ role
+  password      String
+  role          Role           @default(CLIENT)
   accounts      Account[]
-  sessions      Session[]
   cart          Cart?
+  notifications Notification[]
   orders        Order[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  ADMIN
-  CLIENT
+  sessions      Session[]
 }
 
 model Category {
   id          String    @id @default(cuid())
   name        String    @unique
   description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   products    Product[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id          String       @id @default(cuid())
+  id          String      @id @default(cuid())
   name        String
   description String
   price       Float
   imageUrl    String?
   stock       Int
   categoryId  String
-  category    Category     @relation(fields: [categoryId], references: [id])
-  cartItems   CartItem[]   // Relation inverse avec CartItem
-  orderItems  OrderItem[]  // Relation inverse avec OrderItem
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  category    Category    @relation(fields: [categoryId], references: [id])
 }
 
 model Cart {
-  id       String    @id @default(cuid())
-  userId   String    @unique // Unique pour une relation one-to-one
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items    CartItem[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
 }
 
 model CartItem {
-  id        String    @id @default(cuid())
+  id        String  @id @default(cuid())
   cartId    String
-  cart      Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
   productId String
-  product   Product   @relation(fields: [productId], references: [id])
   quantity  Int
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model Order {
-  id           String       @id @default(cuid())
-  userId       String
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items        OrderItem[]
-  totalPrice   Float
-  status       String       // Par exemple : "En cours", "Livrée", etc.
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id         String      @id @default(cuid())
+  userId     String
+  totalPrice Float
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  status     OrderStatus @default(EN_COURS)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      OrderItem[]
 }
 
 model OrderItem {
-  id        String    @id @default(cuid())
+  id        String  @id @default(cuid())
   orderId   String
-  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
-  product   Product   @relation(fields: [productId], references: [id])
   quantity  Int
-  price     Float     // Prix au moment de la commande
+  price     Float
+  validated Boolean @default(false)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -111,11 +113,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -124,10 +124,9 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -136,4 +135,18 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum OrderStatus {
+  EN_COURS
+  PAYEE
+  EN_PREPARATION
+  EXPEDIEE
+  LIVREE
+  ANNULEE
 }
