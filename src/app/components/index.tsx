@@ -14,6 +14,7 @@ export { default as Promotions } from './Promotions/Promotions'
 export { default as Testimonials } from './Testimonials/Testimonials'
 export { default as Tips } from './Tips/Tips'
 export { default as AIPromo } from './AIPromo/AIPromo'
+export { default as ImageUploader } from './ImageUploader/ImageUploader'
 
 
 
