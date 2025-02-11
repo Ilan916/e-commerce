@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   key={item.name}
                   href={item.href}
                   className={`block p-2 rounded-md font-semibold ${
-                    pathname === item.href ? "bg-gray-200 text-red-500" : "text-gray-700 hover:bg-gray-100"
+                    pathname === item.href ? "bg-gray-200 text-black" : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   {item.name}
@@ -59,7 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               key={item.name}
               href={item.href}
               className={`block p-2 rounded-md font-semibold ${
-                pathname === item.href ? "bg-gray-200 text-red-500" : "text-gray-700 hover:bg-gray-100"
+                pathname === item.href ? "bg-gray-200 text-black" : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {item.name}
@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Navbar */}
-        <div className="h-16 flex items-center justify-between px-4 border-b bg-white shadow-sm">
+        <div className="h-16 py-5 flex items-center justify-between px-4 border-b bg-white shadow-sm">
           <button type="button" onClick={() => setSidebarOpen(true)} className="lg:hidden">
             <Bars3Icon className="w-6 h-6 text-gray-700" />
           </button>

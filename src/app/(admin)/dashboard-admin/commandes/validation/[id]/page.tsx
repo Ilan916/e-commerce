@@ -11,13 +11,13 @@ export default function AdminOrderValidationPage() {
 
   useEffect(() => {
     if (!loading && !order) {
-      router.push("/dashboard-admin/commandes"); // ✅ Redirection si la commande n'existe pas
+      router.push("/dashboard-admin/commandes"); // ✅ Redirection si commande introuvable
     }
   }, [loading, order, router]);
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <p className="text-center text-gray-600">Chargement...</p>;
 
-  // Vérifier si tous les produits ont été validés
+  // Vérifier si tous les produits sont validés
   const allValidated = order?.items.every((item) => item.validated);
 
   const handleFinalize = async () => {
@@ -25,75 +25,85 @@ export default function AdminOrderValidationPage() {
       await finalizeOrder();
       router.push("/dashboard-admin/commandes"); // ✅ Redirection après validation
     } catch (error) {
-      console.error("Erreur lors de la finalisation de la commande :", error);
+      console.error("Erreur lors de la finalisation :", error);
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Validation de la commande</h1>
+    <div className="px-4 sm:px-6 lg:px-8">
+      {/* Header */}
+      <div className="sm:flex sm:items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900">Validation de la commande</h1>
+          <p className="mt-1 text-sm text-gray-600">Vérifiez et validez les produits avant expédition.</p>
+        </div>
+      </div>
 
       {/* Infos Client */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold">Client</h2>
-        <p><strong>Nom :</strong> {order?.user.firstname} {order?.user.lastname}</p>
-        <p><strong>Email :</strong> {order?.user.email}</p>
+      <div className="mb-6 p-4 bg-white shadow rounded-lg">
+        <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">Client</h2>
+        <p className="mt-2 text-gray-700"><strong>Nom :</strong> {order?.user.firstname} {order?.user.lastname}</p>
+        <p className="text-gray-700"><strong>Email :</strong> {order?.user.email}</p>
       </div>
 
       {/* Produits Commandés */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold">Produits commandés</h2>
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border p-2">Produit</th>
-              <th className="border p-2">Quantité</th>
-              <th className="border p-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {order?.items.map((item) => (
-              <tr key={item.id} className="border">
-                <td className="p-2">{item.product.name}</td>
-                <td className="p-2">{item.quantity}</td>
-                <td className="p-2">
-                  {item.validated ? (
-                    <span className="text-green-600 font-bold">✅ Validé</span>
-                  ) : (
-                    <button
-                      onClick={() => validateProduct(item.id)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                      Ajouter au stock
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-6 flow-root">
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Produit</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Quantité</th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-900">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {order?.items.map((item) => (
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">{item.product.name}</td>
+                      <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">{item.quantity}</td>
+                      <td className="whitespace-nowrap px-4 py-4 text-sm text-center">
+                        {item.validated ? (
+                          <span className="text-green-600 font-semibold">Ajouté</span>
+                        ) : (
+                          <button
+                            onClick={() => validateProduct(item.id)}
+                            className="bg-black text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                          >
+                            Ajouter à la commande
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Validation Finale */}
-      <div className="mt-6">
+      <div className="mt-6 flex justify-between">
+        <button
+          onClick={() => router.push("/dashboard-admin/commandes")}
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition"
+        >
+          Retour
+        </button>
+
         <button
           onClick={handleFinalize}
           disabled={!allValidated}
           className={`px-4 py-2 rounded text-white ${
-            allValidated ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"
+            allValidated ? "bg-green-500 hover:bg-green-600 transition" : "bg-gray-400 cursor-not-allowed"
           }`}
         >
           Finaliser la commande
         </button>
       </div>
-
-      {/* Retour */}
-      <button
-        onClick={() => router.push("/dashboard-admin/commandes")}
-        className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-      >
-        Retour à la liste
-      </button>
     </div>
   );
 }
