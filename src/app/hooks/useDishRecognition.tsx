@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-// 📌 Type de la réponse JSON attendue de l'API
+// Type de la réponse JSON attendue de l'API
 interface RecipeResponse {
   dish: string;
   ingredients_needed: string[];
@@ -38,7 +38,7 @@ export function useDishRecognition() {
       setRecipe(data);
       setHasAnalyzed(true);
     } catch (err: any) {
-      console.error("❌ Erreur API :", err);
+      console.error("Erreur API :", err);
       setError(err.message || "Erreur inconnue");
     } finally {
       setLoading(false);

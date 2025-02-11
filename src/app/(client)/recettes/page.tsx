@@ -28,12 +28,12 @@ export default function RecettePage() {
           <h1 className="text-2xl font-bold mb-6">Reconnaissance et Suggestions de Recettes</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* 📸 Bloc de reconnaissance d’image */}
+            {/* Bloc de reconnaissance d’image */}
             <div className="p-6 border rounded-lg shadow-lg bg-gray-50">
-              <h2 className="text-lg font-semibold mb-4">📷 Reconnaissance de Plat</h2>
+              <h2 className="text-lg font-semibold mb-4">Reconnaissance de Plat</h2>
               <ImageUploader onImageUpload={handleImageUpload} />
 
-              {loading && <p className="text-gray-500 mt-4">🔍 Analyse en cours...</p>}
+              {loading && <p className="text-gray-500 mt-4">Analyse en cours...</p>}
               {error && <p className="text-red-500 mt-4">{error}</p>}
 
               {recipe && (
@@ -41,16 +41,16 @@ export default function RecettePage() {
                   <h3 className="text-xl font-bold text-gray-900">{recipe.dish}</h3>
                   
                   <div className="mt-4">
-                    <h4 className="text-lg font-semibold text-gray-800">🛒 Ingrédients :</h4>
+                    <h4 className="text-lg font-semibold text-gray-800">Ingrédients :</h4>
                     <p className="text-gray-700 mt-1">
-                      <strong>✅ Disponibles :</strong> {recipe.available_ingredients.join(", ") || "Aucun"}
+                      <strong>Disponibles :</strong> {recipe.available_ingredients.join(", ") || "Aucun"}
                     </p>
                     <p className="text-gray-700">
-                      <strong>❌ Manquants :</strong> {recipe.missing_ingredients.join(", ") || "Aucun"}
+                      <strong>Manquants :</strong> {recipe.missing_ingredients.join(", ") || "Aucun"}
                     </p>
                   </div>
 
-                  <h4 className="text-lg font-semibold text-gray-800 mt-4">🍳 Étapes de préparation :</h4>
+                  <h4 className="text-lg font-semibold text-gray-800 mt-4">Étapes de préparation :</h4>
                   <ol className="list-decimal ml-6 text-gray-700">
                     {recipe.steps.map((step: string, index: number) => (
                       <li key={index} className="mt-2">{step}</li>
@@ -61,16 +61,16 @@ export default function RecettePage() {
                     onClick={() => setImageUploaded(false)}
                     className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition"
                   >
-                    🔄 Réessayer avec une autre image
+                    Réessayer avec une autre image
                   </button>
                 </div>
               )}
             </div>
 
-            {/* 🍽️ Bloc de suggestion de recettes */}
+            {/* Bloc de suggestion de recettes */}
             <div className="p-6 border rounded-lg shadow-lg bg-gray-50">
-              <h2 className="text-lg font-semibold mb-4">🍽️ Suggestions de Recettes</h2>
-              <p className="text-gray-600">🚧 Fonctionnalité en cours de développement...</p>
+              <h2 className="text-lg font-semibold mb-4">Suggestions de Recettes</h2>
+              <p className="text-gray-600">Fonctionnalité en cours de développement...</p>
             </div>
           </div>
         </div>

@@ -14,12 +14,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Aucune image fournie" }, { status: 400 });
     }
 
-    // 📌 Récupération des produits (nom + id) depuis la BDD
+    // Récupération des produits (nom + id) depuis la BDD
     const products = await prisma.product.findMany({
       select: { id: true, name: true },
     });
 
-    // 📌 Schéma JSON attendu en réponse
+    // Schéma JSON attendu en réponse
     const recipeSchema = {
       type: "object",
       properties: {
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       additionalProperties: false,
     };
 
-    // 📌 Appel API OpenAI avec GPT-4 Vision
+    // Appel API OpenAI
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(parsedRecipe);
   } catch (error) {
-    console.error("❌ Erreur lors de l'analyse de l'image :", error);
+    console.error("Erreur lors de l'analyse de l'image :", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
