@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from '@/app/hooks/useCart';
 import { useSession } from 'next-auth/react';
+import CartNotification from '../CartNotification/CartNotification';
 
 interface Product {
   id: string; // Ensure the ID is a string
@@ -30,6 +31,7 @@ export default function ProductsDisplay() {
   const { data: session } = useSession();
   const { addToCart, loading: cartLoading } = useCart();
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -126,6 +128,8 @@ export default function ProductsDisplay() {
       await addToCart(session.user.id, productId, quantity);
       // Reset quantity after adding to cart
       setQuantities(prev => ({ ...prev, [productId]: 1 }));
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000); // Hide after 3 seconds
     } catch (error) {
       console.error('Failed to add to cart:', error);
     }
@@ -275,7 +279,7 @@ export default function ProductsDisplay() {
                   onClick={() => handleAddToCart(product.id)}
                   disabled={cartLoading}
                 >
-                  {cartLoading ? 'Ajout...' : 'Ajouter au Panier'}
+                  Ajouter au Panier
                 </button>
               </div>
             </div>
@@ -299,6 +303,10 @@ export default function ProductsDisplay() {
           Suivant
         </button>
       </div>
+      <CartNotification 
+        show={showNotification} 
+        onClose={() => setShowNotification(false)} 
+      />
     </div>
   );
 }

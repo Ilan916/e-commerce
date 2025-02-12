@@ -27,10 +27,14 @@ const CartPage = () => {
         const response = await fetch(`/api/cart?userId=${session.user.id}`);
         const data = await response.json();
         
-        // Check if data.items exists and is an array
         if (data.items && Array.isArray(data.items)) {
-          setCartItems(data.items);
-          const cartTotal = data.items.reduce(
+          // Sort items by name
+          const sortedItems = [...data.items].sort((a, b) => 
+            a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' })
+          );
+          
+          setCartItems(sortedItems);
+          const cartTotal = sortedItems.reduce(
             (sum, item) => sum + (item.price * item.quantity), 
             0
           );
@@ -54,11 +58,24 @@ const CartPage = () => {
     
     try {
       await updateCartItemQuantity(session.user.id, itemId, newQuantity);
-      // Refresh cart items after update
-      const updatedCart = await getCart(session.user.id);
-      setCartItems(updatedCart);
-      const newTotal = updatedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      setTotal(newTotal);
+      
+      // Update only the quantity of the specific item
+      setCartItems(prevItems => 
+        prevItems.map(item => 
+          item.id === itemId 
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      );
+      
+      // Update total
+      setTotal(prevTotal => {
+        const updatedItem = cartItems.find(item => item.id === itemId);
+        if (!updatedItem) return prevTotal;
+        const difference = (newQuantity - updatedItem.quantity) * updatedItem.price;
+        return prevTotal + difference;
+      });
+
     } catch (error) {
       console.error('Failed to update quantity:', error);
     }
