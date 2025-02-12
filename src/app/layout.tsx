@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Providers } from "./context/Providers"
 import { SidebarProvider } from "./context/SidebarAuthProvider";
+import { CartProvider } from "./context/CartContext"
 
 export const metadata: Metadata = {
   title: "E-commerce",
@@ -25,7 +26,9 @@ export default function RootLayout({
       <body className="bg-gray-50">
         <Providers>
           <SidebarProvider>
+            <CartProvider>
             {children}
+            </CartProvider>
           </SidebarProvider>
         </Providers>
       </body>

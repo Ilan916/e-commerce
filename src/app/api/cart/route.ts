@@ -17,18 +17,16 @@ export async function GET(request: Request) {
       include: {
         items: {
           include: {
-            product: true
-          },
-          orderBy: {
             product: {
-              name: 'asc'
+              select: { id: true, name: true, price: true, imageUrl: true }, // ✅ Charge uniquement ce qui est nécessaire
             }
-          }
+          },
+          orderBy: { product: { name: 'asc' } },
+          take: 100, // ✅ Évite de charger trop d'éléments si jamais il y en a beaucoup
         }
       }
     });
 
-    // Always return an array, even if empty
     const formattedItems = cart?.items?.map(item => ({
       id: item.id,
       name: item.product.name,
@@ -48,86 +46,6 @@ export async function GET(request: Request) {
       error: "Failed to fetch cart items",
       items: [] 
     }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const { userId, productId, quantity = 1 } = await request.json();
-
-    if (!userId || !productId) {
-      return NextResponse.json(
-        { error: "User ID and Product ID are required" },
-        { status: 400 }
-      );
-    }
-
-    // Verify product exists
-    const product = await prisma.product.findUnique({
-      where: { id: productId }
-    });
-
-    if (!product) {
-      return NextResponse.json(
-        { error: "Product not found" },
-        { status: 404 }
-      );
-    }
-
-    // Get or create cart
-    let cart = await prisma.cart.findUnique({
-      where: { userId },
-    });
-
-    if (!cart) {
-      cart = await prisma.cart.create({
-        data: { userId }
-      });
-    }
-
-    // Check if item exists in cart
-    const existingItem = await prisma.cartItem.findFirst({
-      where: {
-        cartId: cart.id,
-        productId
-      }
-    });
-
-    let cartItem;
-    if (existingItem) {
-      cartItem = await prisma.cartItem.update({
-        where: { id: existingItem.id },
-        data: { quantity: existingItem.quantity + quantity },
-        include: { product: true }
-      });
-    } else {
-      cartItem = await prisma.cartItem.create({
-        data: {
-          cartId: cart.id,
-          productId,
-          quantity
-        },
-        include: { product: true }
-      });
-    }
-
-    return NextResponse.json({
-      item: {
-        id: cartItem.id,
-        name: cartItem.product.name,
-        quantity: cartItem.quantity,
-        price: cartItem.product.price,
-        imageUrl: cartItem.product.imageUrl
-      }
-    });
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    return NextResponse.json(
-      { error: "Failed to add item to cart" },
-      { status: 500 }
-    );
   } finally {
     await prisma.$disconnect();
   }

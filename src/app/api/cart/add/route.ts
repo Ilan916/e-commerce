@@ -7,33 +7,27 @@ export async function POST(request: Request) {
   try {
     const { userId, productId, quantity = 1 } = await request.json();
 
-    if (!userId || !productId) {
+    if (!userId || !productId || quantity < 1) {
       return NextResponse.json(
         { error: "User ID and Product ID are required" },
         { status: 400 }
       );
     }
 
-    // Verify product exists and has enough stock
+    // Vérifier si le produit existe et a assez de stock
     const product = await prisma.product.findUnique({
       where: { id: productId }
     });
 
     if (!product) {
-      return NextResponse.json(
-        { error: "Product not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Produit non trouvé" }, { status: 404 });
     }
 
     if (product.stock < quantity) {
-      return NextResponse.json(
-        { error: "Not enough stock available" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Stock insuffisant" }, { status: 400 });
     }
 
-    // Get or create cart
+    // Vérifier si l'utilisateur a un panier existant
     let cart = await prisma.cart.findUnique({
       where: { userId },
     });
@@ -44,7 +38,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // Check if item exists in cart
+    // Vérifier si l'article existe déjà dans le panier
     const existingItem = await prisma.cartItem.findFirst({
       where: {
         cartId: cart.id,
@@ -82,9 +76,9 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error("Error adding to cart:", error);
+    console.error("❌ Erreur lors de l'ajout au panier :", error);
     return NextResponse.json(
-      { error: "Failed to add item to cart" },
+      { error: "Impossible d'ajouter l'article au panier" },
       { status: 500 }
     );
   } finally {
