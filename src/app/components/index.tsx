@@ -16,6 +16,9 @@ export { default as Tips } from './Tips/Tips'
 export { default as AIPromo } from './AIPromo/AIPromo'
 export { default as ImageUploader } from './ImageUploader/ImageUploader'
 export { default as AddProductModalSuggestion } from './AddProductModalSuggestion/AddProductModalSuggestion'
+export { default as Pagination } from './Pagination/Pagination'
+export { default as CategorySelect } from './CategorySelect/CategorySelect'
+export { default as CartNotification } from './CartNotification/CartNotification'
 
 
 
