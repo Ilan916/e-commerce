@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCart } from '@/app/hooks/useCart';
+import { useSession } from 'next-auth/react';
 
 interface Product {
   id: string; // Ensure the ID is a string
@@ -25,6 +27,9 @@ export default function ProductsDisplay() {
   const [loading, setLoading] = useState(false);
   const productsPerPage = 8;
   const preloadPages = 4; // Number of pages to preload
+  const { data: session } = useSession();
+  const { addToCart, loading: cartLoading } = useCart();
+  const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     async function fetchCategories() {
@@ -101,6 +106,29 @@ export default function ProductsDisplay() {
 
   const handleViewProduct = (id: string) => {
     router.push(`/product/${id}`);
+  };
+
+  const handleQuantityChange = (productId: string, value: number) => {
+    setQuantities(prev => ({
+      ...prev,
+      [productId]: Math.max(1, Math.min(value, 99)) // Limite entre 1 et 99
+    }));
+  };
+
+  const handleAddToCart = async (productId: string) => {
+    if (!session?.user?.id) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const quantity = quantities[productId] || 1;
+      await addToCart(session.user.id, productId, quantity);
+      // Reset quantity after adding to cart
+      setQuantities(prev => ({ ...prev, [productId]: 1 }));
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    }
   };
 
   const renderPageNumbers = () => {
@@ -220,14 +248,34 @@ export default function ProductsDisplay() {
               <div className="p-4">
                 <h2 className="text-xl font-semibold">{product.name}</h2>
                 <p className="text-gray-700">{product.price.toFixed(2)} €</p>
+                
+                <div className="flex items-center mt-2 mb-2">
+                  <label htmlFor={`quantity-${product.id}`} className="mr-2">
+                    Quantité :
+                  </label>
+                  <input
+                    id={`quantity-${product.id}`}
+                    type="number"
+                    min="1"
+                    max="99"
+                    value={quantities[product.id] || 1}
+                    onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
+                    className="w-16 px-2 py-1 border rounded"
+                  />
+                </div>
+
                 <button
                   className="mt-4 w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-lg"
                   onClick={() => handleViewProduct(product.id)}
                 >
                   Voir les détails
                 </button>
-                <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                  Ajouter au Panier
+                <button 
+                  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                  onClick={() => handleAddToCart(product.id)}
+                  disabled={cartLoading}
+                >
+                  {cartLoading ? 'Ajout...' : 'Ajouter au Panier'}
                 </button>
               </div>
             </div>

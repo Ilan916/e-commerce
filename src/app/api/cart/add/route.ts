@@ -3,51 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const userId = searchParams.get('userId');
-
-  if (!userId) {
-    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
-  }
-
-  try {
-    const cart = await prisma.cart.findUnique({
-      where: { userId },
-      include: {
-        items: {
-          include: {
-            product: true
-          }
-        }
-      }
-    });
-
-    // Always return an array, even if empty
-    const formattedItems = cart?.items?.map(item => ({
-      id: item.id,
-      name: item.product.name,
-      quantity: item.quantity,
-      price: item.product.price,
-      imageUrl: item.product.imageUrl
-    })) || [];
-
-    return NextResponse.json({ 
-      items: formattedItems,
-      success: true
-    });
-    
-  } catch (error) {
-    console.error("Error fetching cart:", error);
-    return NextResponse.json({ 
-      error: "Failed to fetch cart items",
-      items: [] 
-    }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
 export async function POST(request: Request) {
   try {
     const { userId, productId, quantity = 1 } = await request.json();
@@ -59,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify product exists
+    // Verify product exists and has enough stock
     const product = await prisma.product.findUnique({
       where: { id: productId }
     });
@@ -68,6 +23,13 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Product not found" },
         { status: 404 }
+      );
+    }
+
+    if (product.stock < quantity) {
+      return NextResponse.json(
+        { error: "Not enough stock available" },
+        { status: 400 }
       );
     }
 
@@ -109,6 +71,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
+      success: true,
       item: {
         id: cartItem.id,
         name: cartItem.product.name,
@@ -117,6 +80,7 @@ export async function POST(request: Request) {
         imageUrl: cartItem.product.imageUrl
       }
     });
+
   } catch (error) {
     console.error("Error adding to cart:", error);
     return NextResponse.json(

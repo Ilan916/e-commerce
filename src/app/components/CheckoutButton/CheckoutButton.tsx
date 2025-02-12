@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
@@ -16,9 +17,15 @@ interface CheckoutButtonProps {
 }
 
 export default function CheckoutButton({ items }: CheckoutButtonProps) {
+  const { data: session } = useSession();
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handleCheckout = async () => {
+    if (!session?.user) {
+      alert("Please sign in to checkout");
+      return;
+    }
+
     try {
       const stripe = await stripePromise;
       if (!stripe) throw new Error("Stripe failed to load");
@@ -28,7 +35,11 @@ export default function CheckoutButton({ items }: CheckoutButtonProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ 
+          items,
+          userId: session.user.id,
+          userEmail: session.user.email 
+        }),
       });
 
       const { sessionId } = await response.json();
@@ -50,7 +61,7 @@ export default function CheckoutButton({ items }: CheckoutButtonProps) {
       onClick={handleCheckout}
       className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
     >
-      Checkout (${total.toFixed(2)})
+      Payer ({total.toFixed(2)} €)
     </button>
   );
 }
