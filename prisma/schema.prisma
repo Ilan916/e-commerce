@@ -52,6 +52,13 @@ model Product {
   category    Category    @relation(fields: [categoryId], references: [id])
 }
 
+model ProductSuggestion {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  createdAt DateTime @default(now())
+}
+
+
 model Cart {
   id        String     @id @default(cuid())
   userId    String     @unique

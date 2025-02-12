@@ -14,12 +14,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Aucune image fournie" }, { status: 400 });
     }
 
-    // Récupération des produits (nom + id) depuis la BDD
+    // 🔹 Récupération des produits existants (nom + id)
     const products = await prisma.product.findMany({
       select: { id: true, name: true },
     });
 
-    // Schéma JSON attendu en réponse
+    // 📌 Schéma JSON attendu en retour
     const recipeSchema = {
       type: "object",
       properties: {
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       additionalProperties: false,
     };
 
-    // Appel API OpenAI
+    // 🔥 Appel API OpenAI pour analyse de l'image
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -65,6 +65,7 @@ export async function POST(req: Request) {
           ],
         },
       ],
+      max_tokens: 500,
       functions: [
         {
           name: "generate_recipe",
@@ -75,12 +76,25 @@ export async function POST(req: Request) {
       function_call: { name: "generate_recipe" },
     });
 
-    const recipe = response.choices[0].message?.function_call?.arguments;
-    const parsedRecipe = JSON.parse(recipe || "{}");
+    // 🔍 Vérification de la réponse
+    if (!response.choices[0]?.message?.function_call?.arguments) {
+      return NextResponse.json({ error: "Impossible de générer une recette" }, { status: 500 });
+    }
 
-    return NextResponse.json(parsedRecipe);
+    const recipe = JSON.parse(response.choices[0].message.function_call.arguments || "{}");
+
+    // ✅ Stocker les ingrédients manquants dans `ProductSuggestion`
+    for (const missing of recipe.missing_ingredients) {
+      await prisma.productSuggestion.upsert({
+        where: { name: missing },
+        update: {},
+        create: { name: missing },
+      });
+    }
+
+    return NextResponse.json(recipe);
   } catch (error) {
-    console.error("Erreur lors de l'analyse de l'image :", error);
+    console.error("❌ Erreur analyse plat :", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

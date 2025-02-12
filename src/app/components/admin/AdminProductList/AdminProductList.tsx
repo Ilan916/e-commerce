@@ -2,13 +2,12 @@
 
 import { useAdminProducts } from "@/app/hooks/useAdminProducts";
 import { deleteAdminProduct } from "@/app/hooks/useDeleteAdminProducts";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 
 export default function AdminProductList() {
   const { Adminproducts, loading } = useAdminProducts();
-  const router = useRouter();
 
   const handleDelete = async (id: string) => {
     const confirmed = confirm("Voulez-vous vraiment supprimer ce produit ?");
@@ -27,16 +26,26 @@ export default function AdminProductList() {
   if (loading) return <p className="text-center text-gray-500">Chargement des produits...</p>;
 
   return (
-    <div className=" mx-auto p-6">
+    <div className="mx-auto p-6">
       {/* En-tête */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Gestion des Produits</h1>
-        <button
-          onClick={() => router.push("/dashboard-admin/produits/produit-ajout")}
-          className="block rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
-        >
-          Ajouter un produit
-        </button>
+        <div className="flex gap-3">
+          <Link
+            href="/dashboard-admin/produits/suggestion"
+            prefetch={false}
+            className="rounded-md border border-gray-400 px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100"
+          >
+            Voir les suggestions
+          </Link>
+          <Link
+            href="/dashboard-admin/produits/produit-ajout"
+            prefetch={false}
+            className="rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
+          >
+            Ajouter un produit
+          </Link>
+        </div>
       </div>
 
       {Adminproducts.length === 0 ? (
@@ -70,7 +79,6 @@ export default function AdminProductList() {
 
               {/* Boutons d'action */}
               <div className="flex flex-none items-center gap-x-4">
-
                 {/* Menu d'options */}
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
@@ -82,12 +90,13 @@ export default function AdminProductList() {
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                   >
                     <MenuItem>
-                      <button
-                        onClick={() => router.push(`/dashboard-admin/produits/${product.id}`)}
+                      <Link
+                        href={`/dashboard-admin/produits/${product.id}`}
+                        prefetch={false}
                         className="block w-full px-3 py-1 text-left text-sm text-gray-900 hover:bg-gray-100"
                       >
                         Modifier
-                      </button>
+                      </Link>
                     </MenuItem>
                     <MenuItem>
                       <button
