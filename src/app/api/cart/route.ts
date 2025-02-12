@@ -18,6 +18,11 @@ export async function GET(request: Request) {
         items: {
           include: {
             product: true
+          },
+          orderBy: {
+            product: {
+              name: 'asc'
+            }
           }
         }
       }
