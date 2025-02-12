@@ -17,18 +17,14 @@ export async function GET(request: Request) {
       include: {
         items: {
           include: {
-            product: {
-              select: { id: true, name: true, price: true, imageUrl: true }, // ✅ Charge uniquement ce qui est nécessaire
-            }
-          },
-          orderBy: { product: { name: 'asc' } },
-          take: 100, // ✅ Évite de charger trop d'éléments si jamais il y en a beaucoup
+            product: true  // Include all product data
+          }
         }
       }
     });
 
     const formattedItems = cart?.items?.map(item => ({
-      id: item.id,
+      id: item.product.id,  // Use product.id instead of cart item id
       name: item.product.name,
       quantity: item.quantity,
       price: item.product.price,
