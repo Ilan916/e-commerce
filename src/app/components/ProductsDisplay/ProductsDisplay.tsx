@@ -40,7 +40,7 @@ export default function ProductsDisplay() {
         const data = await response.json();
         setCategories(data.categories || []);
       } catch (error) {
-        console.error("❌ Erreur récupération catégories :", error);
+        console.error("Erreur récupération catégories :", error);
       }
     }
     fetchCategories();
@@ -56,7 +56,7 @@ export default function ProductsDisplay() {
         setProducts(data.products || []);
         setTotalPages(data.totalPages || 1);
       } catch (error) {
-        console.error("❌ Erreur récupération produits :", error);
+        console.error("Erreur récupération produits :", error);
       } finally {
         setLoading(false);
       }
@@ -93,10 +93,10 @@ export default function ProductsDisplay() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-xl font-bold text-gray-900">Nos Produits</h2>
 
-        {/* 🔹 Sélecteur de catégorie */}
+        {/* Sélecteur de catégorie */}
         <div className="mt-4">
           <label htmlFor="category" className="block text-sm font-medium text-gray-700">
             Filtrer par catégorie :
@@ -104,7 +104,7 @@ export default function ProductsDisplay() {
           <CategorySelect categories={categories} selectedCategory={selectedCategory} onChange={setSelectedCategory} />
         </div>
 
-        {/* 🔹 Liste des produits */}
+        {/* Liste des produits */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="loader"></div>
@@ -148,7 +148,7 @@ export default function ProductsDisplay() {
                       e.stopPropagation(); // Empêche la navigation quand on clique sur "Ajouter au panier"
                       handleAddToCart(product);
                     }}
-                    className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
+                    className="relative flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-2 text-sm font-medium text-white hover:bg-red-700"
                   >
                     Ajouter au panier
                   </button>
