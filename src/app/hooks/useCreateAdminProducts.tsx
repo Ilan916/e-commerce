@@ -1,9 +1,19 @@
 export async function createAdminProduct(productData: any) {
-  const response = await fetch("/api/admin/products", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(productData),
-  });
+  try {
+    const response = await fetch("/api/admin/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productData),
+    });
 
-  return await response.json();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Erreur lors de l'ajout du produit");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("❌ Erreur lors de l'ajout du produit :", error);
+    throw error;
+  }
 }

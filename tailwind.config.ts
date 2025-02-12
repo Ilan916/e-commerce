@@ -15,6 +15,9 @@ const config: Config = {
       fontFamily: {
         sans: ['"Open Sans"', "sans-serif"],
       },
+      boxShadow: {
+        'bottom-light': '0px 1px 2px 0px rgba(0, 0, 0, 0.05)', // Ombre en bas personnalisée
+      },
     },
   },
   plugins: [],
