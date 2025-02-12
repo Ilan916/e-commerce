@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/hooks/useCart";
 import CartNotification from "../CartNotification/CartNotification";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 interface ProductInfosProps {
   product: {
@@ -14,6 +15,7 @@ interface ProductInfosProps {
     price: number;
     imageUrl?: string;
     stock: number;
+    category: string;
   };
 }
 
@@ -25,69 +27,103 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
   const [showNotification, setShowNotification] = useState(false);
 
   const handleQuantityChange = (value: number) => {
-    setQuantity(Math.max(1, Math.min(value, product.stock))); // Limite par le stock disponible
+    setQuantity(Math.max(1, Math.min(value, product.stock)));
   };
 
   const handleAddToCart = async () => {
     if (!session?.user?.id) {
-      router.push("/login");
+      router.push("/connexion");
       return;
     }
 
     try {
       await addToCart(session.user.id, product.id, quantity);
-      setQuantity(1); // Reset quantity after adding to cart
+      setQuantity(1);
       setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000); // Hide after 3 seconds
+      setTimeout(() => setShowNotification(false), 3000);
     } catch (error) {
       console.error("Failed to add to cart:", error);
     }
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-start max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      {product.imageUrl && (
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full md:w-1/2 h-64 object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
-        />
-      )}
-      <div className="w-full md:w-1/2">
-        <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-        <p className="text-gray-700 mb-4">{product.description}</p>
-        <p className="text-3xl font-semibold text-blue-600 mb-4">
-          {product.price.toFixed(2)} €
-        </p>
-        <p className="text-gray-700 mb-4">Stock : {product.stock}</p>
+    <div>
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+        
+        {/* 🧭 Breadcrumb */}
+        <div className="lg:max-w-lg lg:self-start">
+          <nav aria-label="Breadcrumb">
+            <ol role="list" className="flex items-center space-x-2">
+              <li>
+                <a href={`/category/${product.category}`} className="text-sm font-medium text-gray-500 hover:text-gray-900">
+                  {product.category}
+                </a>
+              </li>
+            </ol>
+          </nav>
 
-        {/* Ajouter le sélecteur de quantité */}
-        <div className="flex items-center mb-4">
-          <label htmlFor="quantity" className="mr-2">
-            Quantité :
-          </label>
-          <input
-            id="quantity"
-            type="number"
-            min="1"
-            max={product.stock}
-            value={quantity}
-            onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
-            className="w-20 px-2 py-1 border rounded"
-          />
+          {/* 🏷️ Titre & Description */}
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            {product.name}
+          </h1>
+          <p className="mt-4 text-base text-gray-500">{product.description}</p>
+
+          {/* 💰 Prix & Avis */}
+          <div className="mt-4 flex items-center">
+            <p className="text-lg font-semibold text-gray-900 sm:text-xl">{product.price.toFixed(2)} €</p>
+          </div>
+
+          {/* ✅ Stock */}
+          <div className="mt-4 flex items-center">
+            <CheckIcon className="h-5 w-5 text-green-500" />
+            <p className="ml-2 text-sm text-gray-500">
+              {product.stock > 0 ? "En stock et prêt à être expédié" : "Rupture de stock"}
+            </p>
+          </div>
+
+          {/* 🔢 Sélection Quantité */}
+          <div className="mt-6">
+            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+              Quantité :
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              min="1"
+              max={product.stock}
+              value={quantity}
+              onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
+              className="mt-2 w-20 px-3 py-2 border rounded-md text-center"
+            />
+          </div>
+
+          {/* 🛒 Bouton Ajouter au Panier */}
+          <button
+            className="mt-6 flex w-full items-center justify-center rounded-md bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-red-700"
+            onClick={handleAddToCart}
+            disabled={cartLoading || product.stock === 0}
+          >
+            Ajouter au panier
+          </button>
         </div>
 
-        <button
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-          onClick={handleAddToCart}
-          disabled={cartLoading || product.stock === 0}
-        >
-          'Ajouter au Panier'
-        </button>
-        <CartNotification
-          show={showNotification}
-          onClose={() => setShowNotification(false)}
-        />
+        {/* 🖼️ Image Produit */}
+        <div className="mt-10 lg:col-start-2 lg:mt-0 lg:self-center">
+          {product.imageUrl ? (
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="aspect-square w-full rounded-lg object-cover"
+            />
+          ) : (
+            <div className="flex items-center justify-center aspect-square w-full bg-gray-200 rounded-lg">
+              <p className="text-gray-500 text-lg">Aucune image</p>
+            </div>
+          )}
+        </div>
+
+        {/* 🔔 Notification */}
+        <CartNotification show={showNotification} onClose={() => setShowNotification(false)} />
       </div>
     </div>
   );
