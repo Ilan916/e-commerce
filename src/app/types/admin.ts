@@ -5,7 +5,7 @@ export interface AdminProduct {
   price: number;
   stock: number;
   imageUrl?: string;
-  categoryId: string;
+  categoryId?: string;
 }
 
 export interface User {
