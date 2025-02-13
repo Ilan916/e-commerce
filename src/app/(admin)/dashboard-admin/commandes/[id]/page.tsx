@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const statuses = [
   { id: "EN_COURS", name: "En cours" },
@@ -27,7 +28,7 @@ export default function AdminOrderDetailPage() {
     }
   }, [order]);
 
-  if (loading) return <p className="text-center text-gray-600">Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
   if (!order) return <p className="text-center text-red-500">Commande introuvable.</p>;
 
   return (

@@ -35,7 +35,7 @@ export default function SidebarAuthentification() {
             </Link>
           </li>
           <li className=" border-gray-300 border-b-2  hover:bg-gray-200 group">
-            <Link href="/achats" className="w-full h-full py-4 text-slate-500 text-sm group-hover:text-slate-700 pl-4 font-semibold flex items-center gap-2" onClick={closeSidebar}>
+            <Link href="/cart" className="w-full h-full py-4 text-slate-500 text-sm group-hover:text-slate-700 pl-4 font-semibold flex items-center gap-2" onClick={closeSidebar}>
             <FaShoppingCart className="text-xl"/> Mon Panier
             </Link>
           </li>
