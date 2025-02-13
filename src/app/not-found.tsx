@@ -9,13 +9,13 @@ const NotFound = () => {
           4<span className="text-red-600">0</span>4
         </h1>
         <p className="text-xl md:text-2xl text-gray-600 mb-8">
-          Oups ! La page que vous recherchez n'existe pas.
+          Oups ! La page que vous recherchez n&apos;existe pas.
         </p>
         <Link 
           href="/" 
           className="inline-block px-6 py-3 text-base font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-200"
         >
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
       </div>
     </div>
