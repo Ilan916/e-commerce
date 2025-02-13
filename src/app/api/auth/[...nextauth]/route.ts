@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
+            role: user.role, // ✅ Ajout du rôle ici
           };
         }
 
@@ -39,6 +40,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.id as string;
       session.user.firstname = token.firstname as string;
       session.user.lastname = token.lastname as string;
+      session.user.role = token.role as string; // ✅ Ajout du rôle dans la session
       return session;
     },
     async jwt({ token, user }: { token: JWT; user?: any }) {
@@ -46,6 +48,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.firstname = user.firstname;
         token.lastname = user.lastname;
+        token.role = user.role; // ✅ Ajout du rôle dans le JWT
       }
       return token;
     },
@@ -65,5 +68,4 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-// Export les handlers pour les méthodes HTTP GET et POST
 export { handler as GET, handler as POST };

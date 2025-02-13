@@ -1,27 +1,39 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(req: Request) {
+  // 🛡 Vérifier l'authentification et le rôle
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+  }
+
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
+  }
+
   try {
-    // 📌 Nombre total de commandes
+    // Nombre total de commandes
     const totalOrders = await prisma.order.count();
 
-    // 📌 Chiffre d’affaires total
+    // Chiffre d’affaires total
     const totalRevenue = await prisma.order.aggregate({
       _sum: { totalPrice: true },
     });
 
-    // 📌 Nombre total d’utilisateurs
+    // Nombre total d’utilisateurs
     const totalUsers = await prisma.user.count();
 
-    // 📌 Nombre total de produits en stock
+    // Nombre total de produits en stock
     const totalStock = await prisma.product.aggregate({
       _sum: { stock: true },
     });
 
-    // 📌 Produits les plus vendus (top 5)
+    // Produits les plus vendus (top 5)
     const topProducts = await prisma.orderItem.groupBy({
       by: ["productId"],
       _sum: { quantity: true },
@@ -29,7 +41,7 @@ export async function GET() {
       take: 5,
     });
 
-    // 📌 Récupérer les infos des produits les plus vendus
+    // Récupérer les infos des produits les plus vendus
     const topProductDetails = await Promise.all(
       topProducts.map(async (item) => {
         const product = await prisma.product.findUnique({
@@ -48,7 +60,7 @@ export async function GET() {
       topProducts: topProductDetails,
     });
   } catch (error) {
-    console.error("❌ Erreur API stats :", error);
+    console.error("Erreur API stats :", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
