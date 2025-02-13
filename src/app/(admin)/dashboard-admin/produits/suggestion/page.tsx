@@ -3,11 +3,14 @@
 import { useState } from "react";
 import { useProductSuggestions } from "@/app/hooks/useProductSuggestions";
 import { AddProductModalSuggestion } from "@/app/components";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function ProductSuggestionsPage() {
   const { suggestions, loading, error, addProduct, removeSuggestion } = useProductSuggestions();
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="mx-auto p-6">
