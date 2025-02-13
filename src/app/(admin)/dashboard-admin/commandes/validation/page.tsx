@@ -2,11 +2,12 @@
 
 import { useAdminOrdersToValidate } from "@/app/hooks/useAdminOrdersToValidate";
 import Link from "next/link";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function AdminOrdersToValidatePage() {
   const { orders, loading } = useAdminOrdersToValidate();
 
-  if (loading) return <p className="text-center text-gray-600">Chargement des commandes...</p>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">

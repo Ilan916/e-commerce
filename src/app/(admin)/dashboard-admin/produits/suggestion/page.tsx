@@ -3,11 +3,14 @@
 import { useState } from "react";
 import { useProductSuggestions } from "@/app/hooks/useProductSuggestions";
 import { AddProductModalSuggestion } from "@/app/components";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function ProductSuggestionsPage() {
   const { suggestions, loading, error, addProduct, removeSuggestion } = useProductSuggestions();
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="mx-auto p-6">
@@ -30,7 +33,7 @@ export default function ProductSuggestionsPage() {
             <li key={product.id} className="flex items-center justify-between py-4">
               <div className="flex-1">
                 <p className="text-lg font-semibold text-gray-900">{product.name}</p>
-                <p className="text-sm text-gray-500">Produit en attente d'ajout</p>
+                <p className="text-sm text-gray-500">Produit en attente d&apos;ajout</p>
               </div>
 
               <div className="flex gap-2">

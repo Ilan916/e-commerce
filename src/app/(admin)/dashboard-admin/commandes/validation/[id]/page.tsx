@@ -3,6 +3,7 @@
 import { useAdminOrderValidation } from "@/app/hooks/useAdminOrderValidation";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function AdminOrderValidationPage() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function AdminOrderValidationPage() {
     }
   }, [loading, order, router]);
 
-  if (loading) return <p className="text-center text-gray-600">Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
 
   // Vérifier si tous les produits sont validés
   const allValidated = order?.items.every((item) => item.validated);

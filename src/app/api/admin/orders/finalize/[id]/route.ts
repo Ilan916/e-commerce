@@ -1,8 +1,19 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+    }
+    if (session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
+    }
+
     const orderId = params.id;
 
     // Récupération de la commande et des produits commandés
@@ -32,7 +43,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
     return NextResponse.json(updatedOrder);
   } catch (error) {
-    console.error("❌ Erreur finalisation commande :", error);
+    console.error("Erreur finalisation commande :", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

@@ -1,32 +1,34 @@
 "use client";
 
 import { useUserDetails } from "@/app/hooks/useUserDetails";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { useParams, useRouter } from "next/navigation";
 import { FiImage } from "react-icons/fi";
+import { User, Order } from "@/app/types/admin";
 
 export default function UserDetailsPage() {
   const { id } = useParams();
   const { user, loading } = useUserDetails(id as string);
   const router = useRouter();
 
-  if (loading) return <p className="text-center text-gray-500">Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
   if (!user) return <p className="text-center text-red-500">Utilisateur introuvable</p>;
 
   return (
     <section className="mx-auto p-6 rounded-lg">
-      <h1 className="text-3xl font-bold mb-4 text-gray-900">Détails de l'utilisateur</h1>
-      <p className="text-gray-600 mb-6">Informations complètes sur l'utilisateur sélectionné.</p>
+      <h1 className="text-3xl font-bold mb-4 text-gray-900">Détails de l&apos;utilisateur</h1>
+      <p className="text-gray-600 mb-6">Informations complètes sur l&apos;utilisateur sélectionné.</p>
 
       {/* 📌 Informations Client */}
       <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Informations de l'utilisateur</h2>
+        <h2 className="text-xl font-semibold mb-4">Informations de l&apos;utilisateur</h2>
         <p className="text-gray-700"><strong>Nom :</strong> {user.firstname} {user.lastname}</p>
         <p className="text-gray-700"><strong>Email :</strong> {user.email}</p>
         <p className="text-gray-700"><strong>Rôle :</strong> {user.role}</p>
         <p className="text-gray-700"><strong>Téléphone :</strong> {user.phoneNumber || "Non renseigné"}</p>
         <p className="text-gray-700"><strong>Adresse :</strong> {user.address || "Non renseignée"}</p>
         <p className="text-gray-700"><strong>Date de naissance :</strong> {user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "Non renseignée"}</p>
-        <p className="text-gray-700"><strong>Date d'inscription :</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+        <p className="text-gray-700"><strong>Date d&apos;inscription :</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
 
       {/* 📦 Historique des commandes */}

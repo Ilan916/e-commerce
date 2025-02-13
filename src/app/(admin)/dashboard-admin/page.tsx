@@ -19,7 +19,7 @@ export default function AdminDashboardHome() {
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
 
-      {/* 📌 Section Stats */}
+      {/* Section Stats */}
       <div>
       <h3 className="text-base font-semibold text-gray-900">Statistiques</h3>
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">

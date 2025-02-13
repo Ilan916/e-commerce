@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ProductForm } from "@/app/components";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { AdminProduct } from "@/app/types/admin";
 
 export default function EditProductPage() {
   const { id } = useParams();
   const router = useRouter();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<AdminProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -29,7 +31,7 @@ export default function EditProductPage() {
     if (id) fetchProduct();
   }, [id]);
 
-  const handleUpdateProduct = async (updatedData: any) => {
+  const handleUpdateProduct = async (updatedData: AdminProduct) => {
     try {
       const response = await fetch(`/api/admin/products/${id}`, {
         method: "PUT",
@@ -51,7 +53,7 @@ export default function EditProductPage() {
     }
   };
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
   if (!product) return <p>Produit introuvable.</p>;
 
   return (

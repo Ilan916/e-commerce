@@ -6,6 +6,7 @@ import CheckoutButton from "@/app/components/CheckoutButton/CheckoutButton";
 import { useCart } from "@/app/hooks/useCart";
 import { NavbarAuth, NavbarClient, SidebarAuthentification } from "@/app/components";
 import { useCartContext } from "@/app/context/CartContext";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const CartPage = () => {
   const { data: session, status } = useSession();
@@ -41,7 +42,7 @@ const CartPage = () => {
   };
 
   if (status === "loading") {
-    return <div className="max-w-4xl mx-auto p-6">Chargement...</div>;
+    return <LoadingSpinner />;
   }
 
   if (status === "unauthenticated") {
