@@ -5,6 +5,7 @@ import { deleteAdminProduct } from "@/app/hooks/useDeleteAdminProducts";
 import Link from "next/link";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function AdminProductList() {
   const { Adminproducts, loading } = useAdminProducts();
@@ -23,7 +24,7 @@ export default function AdminProductList() {
     }
   };
 
-  if (loading) return <p className="text-center text-gray-500">Chargement des produits...</p>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="mx-auto p-6">

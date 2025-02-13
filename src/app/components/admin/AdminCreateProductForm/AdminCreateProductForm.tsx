@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createAdminProduct } from "@/app/hooks/useCreateAdminProducts";
 import { useAdminCategories, AdminCategory } from "@/app/hooks/useAdminCategories";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function AdminCreateProductForm() {
   const [form, setForm] = useState({
@@ -40,6 +41,8 @@ export default function AdminCreateProductForm() {
       alert("Une erreur est survenue lors de la création du produit.");
     }
   };
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto bg-white p-6 shadow-md rounded">

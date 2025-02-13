@@ -51,7 +51,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar Desktop */}
       <div className="hidden lg:flex lg:w-64 lg:flex-col bg-white border-r">
         <div className="flex h-16 items-center justify-center border-b">
-          <p className="font-bold text-lg">Drive Market</p>
+          <Link 
+            href="/" 
+            className="font-bold text-lg hover:text-red-600 transition-colors duration-200"
+          >
+            Drive Market
+          </Link>
         </div>
         <nav className="mt-4 space-y-4 px-6">
           {navigation.map((item) => (

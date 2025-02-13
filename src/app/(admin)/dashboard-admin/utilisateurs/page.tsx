@@ -3,6 +3,7 @@
 import { useUsers } from "@/app/hooks/useUsers";
 import { useState } from "react";
 import { ConfirmModal } from "@/app/components";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function UserListPage() {
   const {
@@ -19,7 +20,7 @@ export default function UserListPage() {
   const [roleFilter, setRoleFilter] = useState("");
   const [search, setSearch] = useState("");
 
-  if (loading) return <p className="text-center text-gray-600">Chargement des utilisateurs...</p>;
+  if (loading) return <LoadingSpinner />;
 
   // 🔎 Filtrage par rôle et recherche
   const filteredUsers = users
