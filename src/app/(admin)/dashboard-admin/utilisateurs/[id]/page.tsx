@@ -28,7 +28,7 @@ export default function UserDetailsPage() {
         <p className="text-gray-700"><strong>Téléphone :</strong> {user.phoneNumber || "Non renseigné"}</p>
         <p className="text-gray-700"><strong>Adresse :</strong> {user.address || "Non renseignée"}</p>
         <p className="text-gray-700"><strong>Date de naissance :</strong> {user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "Non renseignée"}</p>
-        <p className="text-gray-700"><strong>Date d'inscription :</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+        <p className="text-gray-700"><strong>Date d&apos;inscription :</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
 
       {/* 📦 Historique des commandes */}

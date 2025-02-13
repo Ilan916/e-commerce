@@ -48,7 +48,7 @@ export default function RecipeAIPromo() {
             Des recettes instantanées, adaptées à vos envies
           </h2>
           <p className="mt-6 text-center text-slate-600 mb-12">
-            Prenez une photo d'un plat ou utilisez les ingrédients de votre
+            Prenez une photo d&apos;un plat ou utilisez les ingrédients de votre
             panier, et notre IA vous proposera des recettes adaptées. Une
             solution simple, rapide et intelligente pour cuisiner sans prise de
             tête !
