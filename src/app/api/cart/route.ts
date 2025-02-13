@@ -24,7 +24,8 @@ export async function GET(request: Request) {
     });
 
     const formattedItems = cart?.items?.map(item => ({
-      id: item.product.id,  // Use product.id instead of cart item id
+      id: item.product.id,
+      cartItemId: item.id,  // Add this line to include the cart item ID
       name: item.product.name,
       quantity: item.quantity,
       price: item.product.price,
