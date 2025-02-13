@@ -71,7 +71,7 @@ export default function ProductsDisplay() {
 
   const handleAddToCart = (product: Product) => {
     if (!session?.user?.id) {
-      router.push("/login");
+      router.push("/connexion");
       return;
     }
 
