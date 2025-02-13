@@ -48,8 +48,8 @@ export default function ImageUploader({ onImageUpload }: ImageUploaderProps) {
       onDrop={handleDrop} // Gère le drop
     >
       <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id="fileInput" />
-      <label htmlFor="fileInput" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
-        📷 Choisir une image ou glisser-déposer
+      <label htmlFor="fileInput" className="bg-black text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
+      Choisir une image ou glisser-déposer
       </label>
 
       {error && <p className="text-red-500">{error}</p>}
