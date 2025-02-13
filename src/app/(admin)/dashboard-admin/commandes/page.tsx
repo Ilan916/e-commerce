@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const statuses = [
   { id: "", name: "Tous les statuts" },
@@ -20,7 +21,7 @@ export default function AdminOrdersPage() {
   const { orders, loading, setStatusFilter, setEmailFilter } = useAdminOrders();
   const [selectedStatus, setSelectedStatus] = useState(statuses[0]);
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">

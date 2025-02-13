@@ -8,6 +8,8 @@ declare module "next-auth" {
       firstname: string;
       lastname: string;
       role: string;
+      phoneNumber: string;
+      address: string;
     };
   }
 }

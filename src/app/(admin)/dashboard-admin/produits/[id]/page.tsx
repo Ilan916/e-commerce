@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ProductForm } from "@/app/components";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -51,7 +52,7 @@ export default function EditProductPage() {
     }
   };
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
   if (!product) return <p>Produit introuvable.</p>;
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserDetails } from "@/app/hooks/useUserDetails";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { useParams, useRouter } from "next/navigation";
 import { FiImage } from "react-icons/fi";
 
@@ -9,7 +10,7 @@ export default function UserDetailsPage() {
   const { user, loading } = useUserDetails(id as string);
   const router = useRouter();
 
-  if (loading) return <p className="text-center text-gray-500">Chargement...</p>;
+  if (loading) return <LoadingSpinner />;
   if (!user) return <p className="text-center text-red-500">Utilisateur introuvable</p>;
 
   return (
