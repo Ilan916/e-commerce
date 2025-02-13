@@ -78,14 +78,15 @@ model CartItem {
 }
 
 model Order {
-  id         String      @id @default(cuid())
-  userId     String
-  totalPrice Float
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  status     OrderStatus @default(EN_COURS)
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items      OrderItem[]
+  id              String      @id @default(cuid())
+  userId          String
+  totalPrice      Float
+  stripeSessionId String?     @unique  // Make sure this field exists
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  status          OrderStatus @default(EN_COURS)
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           OrderItem[]
 }
 
 model OrderItem {

@@ -62,7 +62,7 @@ export const useCart = () => {
     }
   };
 
-  const updateCartItemQuantity = async (userId: string, itemId: string, quantity: number) => {
+  const updateCartItemQuantity = async (userId: string, productId: string, quantity: number) => {
     setLoading(true);
     setError(null);
     
@@ -72,7 +72,7 @@ export const useCart = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, itemId, quantity }),
+        body: JSON.stringify({ userId, productId, quantity }),
       });
 
       const data = await response.json();
@@ -90,7 +90,7 @@ export const useCart = () => {
     }
   };
 
-  const removeFromCart = async (userId: string, itemId: string) => {
+  const removeFromCart = async (userId: string, productId: string) => {
     setLoading(true);
     setError(null);
     
@@ -100,7 +100,7 @@ export const useCart = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, itemId }),
+        body: JSON.stringify({ userId, productId }),
       });
 
       if (!response.ok) {

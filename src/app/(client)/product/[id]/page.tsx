@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import ProductInfos from '@/app/components/ProductInfos/ProductInfos';
+import { NavbarClient, NavbarAuth, SidebarAuthentification, Footer } from "@/app/components";
 
 const ProductPage: React.FC = () => {
   const { id } = useParams();
@@ -22,9 +23,13 @@ const ProductPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
+    <>
+      <NavbarAuth />
+      <NavbarClient />
+      <SidebarAuthentification />
       <ProductInfos product={product} />
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -5,14 +5,25 @@ const prisma = new PrismaClient();
 
 export async function PUT(request: Request) {
   try {
-    const { userId, itemId, quantity } = await request.json();
+    const { userId, productId, quantity } = await request.json();
 
-    if (!userId || !itemId || quantity < 1) {
+    if (!userId || !productId || quantity < 1) {
       return NextResponse.json({ error: "Paramètres invalides" }, { status: 400 });
     }
 
-    const cartItem = await prisma.cartItem.findUnique({
-      where: { id: itemId },
+    const cart = await prisma.cart.findUnique({
+      where: { userId }
+    });
+
+    if (!cart) {
+      return NextResponse.json({ error: "Panier non trouvé" }, { status: 404 });
+    }
+
+    const cartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: cart.id,
+        productId: productId
+      },
       include: { product: true }
     });
 
@@ -20,14 +31,12 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Article non trouvé dans le panier" }, { status: 404 });
     }
 
-    // Vérifier si le stock permet cette mise à jour
     if (cartItem.product.stock < quantity) {
       return NextResponse.json({ error: "Stock insuffisant pour cette quantité" }, { status: 400 });
     }
 
-    // Mise à jour de la quantité
     const updatedCartItem = await prisma.cartItem.update({
-      where: { id: itemId },
+      where: { id: cartItem.id },
       data: { quantity },
       include: { product: true }
     });
@@ -35,7 +44,8 @@ export async function PUT(request: Request) {
     return NextResponse.json({
       success: true,
       item: {
-        id: updatedCartItem.id,
+        id: updatedCartItem.product.id,
+        cartItemId: updatedCartItem.id,
         name: updatedCartItem.product.name,
         quantity: updatedCartItem.quantity,
         price: updatedCartItem.product.price,
