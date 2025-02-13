@@ -9,7 +9,12 @@
     "lint": "next lint",
     "prisma:studio": "npx prisma studio",
     "prisma:seed": "npx prisma db seed",
-    "seed:orders": "node prisma/orderSeed.js"
+    "seed:orders": "node prisma/orderSeed.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest src/__tests__/unit",
+    "test:integration": "jest src/__tests__/integration"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -33,17 +38,26 @@
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/supertest": "^2.0.16",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
+    "express": "^4.21.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-mock-extended": "^3.0.7",
     "postcss": "^8",
     "prisma": "^5.21.1",
+    "supertest": "^6.3.4",
     "tailwindcss": "^3.4.1",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5"
   }

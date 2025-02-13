@@ -39,7 +39,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setTotal(items.reduce((sum, item) => sum + item.price * item.quantity, 0));
   };
 
-  // ✅ Ajout instantané + mise à jour immédiate de la navbar
+  // Ajout instantané + mise à jour immédiate de la navbar
   const addItemToCart = async (newItem: CartItem) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === newItem.id);
@@ -57,7 +57,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     setTotal((prevTotal) => prevTotal + newItem.price * newItem.quantity);
 
-    // 🔥 On exécute l'appel API en arrière-plan
+    // On exécute l'appel API en arrière-plan
     addToCart(session?.user?.id as string, newItem.id, newItem.quantity)
       .then(() => refreshCart()) // 🔄 Met à jour en background
       .catch((error) => console.error("Erreur ajout panier :", error));
@@ -83,7 +83,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       .catch((error) => console.error("Erreur mise à jour quantité :", error));
   };
 
-  // ✅ Suppression immédiate d'un produit
+  // Suppression immédiate d'un produit
   const removeItemFromCart = async (itemId: string) => {
     setCartItems((prev) => prev.filter((item) => item.id !== itemId));
 
