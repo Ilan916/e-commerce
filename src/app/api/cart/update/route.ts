@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -8,11 +8,14 @@ export async function PUT(request: Request) {
     const { userId, productId, quantity } = await request.json();
 
     if (!userId || !productId || quantity < 1) {
-      return NextResponse.json({ error: "Paramètres invalides" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Paramètres invalides" },
+        { status: 400 }
+      );
     }
 
     const cart = await prisma.cart.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (!cart) {
@@ -22,23 +25,29 @@ export async function PUT(request: Request) {
     const cartItem = await prisma.cartItem.findFirst({
       where: {
         cartId: cart.id,
-        productId: productId
+        productId: productId,
       },
-      include: { product: true }
+      include: { product: true },
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Article non trouvé dans le panier" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Article non trouvé dans le panier" },
+        { status: 404 }
+      );
     }
 
     if (cartItem.product.stock < quantity) {
-      return NextResponse.json({ error: "Stock insuffisant pour cette quantité" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Stock insuffisant pour cette quantité" },
+        { status: 400 }
+      );
     }
 
     const updatedCartItem = await prisma.cartItem.update({
       where: { id: cartItem.id },
       data: { quantity },
-      include: { product: true }
+      include: { product: true },
     });
 
     return NextResponse.json({
@@ -49,10 +58,9 @@ export async function PUT(request: Request) {
         name: updatedCartItem.product.name,
         quantity: updatedCartItem.quantity,
         price: updatedCartItem.product.price,
-        imageUrl: updatedCartItem.product.imageUrl
-      }
+        imageUrl: updatedCartItem.product.imageUrl,
+      },
     });
-
   } catch (error) {
     console.error("❌ Erreur mise à jour panier :", error);
     return NextResponse.json(

@@ -44,11 +44,15 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === newItem.id);
       if (existingItem) {
-        return prev.map((item) =>
-          item.id === newItem.id ? { ...item, quantity: item.quantity + newItem.quantity } : item
-        );
+        return prev
+          .map((item) =>
+            item.id === newItem.id 
+              ? { ...item, quantity: item.quantity + newItem.quantity } 
+              : item
+          )
+          .sort((a, b) => a.name.localeCompare(b.name));
       }
-      return [...prev, newItem];
+      return [...prev, newItem].sort((a, b) => a.name.localeCompare(b.name));
     });
 
     setTotal((prevTotal) => prevTotal + newItem.price * newItem.quantity);
@@ -61,10 +65,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   // ✅ Mise à jour immédiate de la quantité
   const updateItemQuantity = async (itemId: string, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === itemId ? { ...item, quantity } : item
-      )
+    setCartItems((prev) => 
+      prev
+        .map((item) => item.id === itemId ? { ...item, quantity } : item)
+        .sort((a, b) => a.name.localeCompare(b.name))
     );
 
     setTotal((prevTotal) => {

@@ -17,7 +17,12 @@ export async function GET(request: Request) {
       include: {
         items: {
           include: {
-            product: true  // Include all product data
+            product: true
+          },
+          orderBy: {
+            product: {
+              name: 'asc'
+            }
           }
         }
       }
