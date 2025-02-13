@@ -1,8 +1,35 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      include: { category: true },
+    });
+
+    return NextResponse.json(products, { status: 200 });
+  } catch (error) {
+    console.error("Erreur récupération produits :", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération des produits" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: Request) {
   try {
+    // 🛡 Vérification de l'authentification et du rôle ADMIN
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+    }
+    if (session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
+    }
+
     const body = await req.json();
     const { name, description, price, stock, imageUrl, categoryId } = body;
 
@@ -37,25 +64,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    console.error("❌ Erreur lors de la création du produit :", error);
+    console.error("Erreur lors de la création du produit :", error);
     return NextResponse.json(
       { error: "Erreur lors de la création du produit" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET() {
-  try {
-    const products = await prisma.product.findMany({
-      include: { category: true }, 
-    });
-
-    return NextResponse.json(products, { status: 200 });
-  } catch (error) {
-    console.error("Erreur récupération produits :", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération des produits" },
       { status: 500 }
     );
   }
