@@ -49,7 +49,7 @@ export default function BannerHero() {
             href="/courses"
             className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-red-700 transition duration-300"
           >
-            Voir la liste des courses
+            Voir la liste des produits
           </Link>
         </div>
       </div>
@@ -57,7 +57,7 @@ export default function BannerHero() {
       {/* Phrase sous l'image */}
       <div className="container mx-auto px-4 text-center mt-6 flex flex-col items-center">
         <p className="text-lg text-gray-700 flex items-center gap-2">
-          Besoin d'identifier un plat ou d'idées de recettes ?{" "}
+          Besoin d&apos;identifier un plat ou d&apos;idées de recettes ?{" "}
           <Link href="/recettes">
           <span className="text-red-600 font-semibold flex items-center gap-1 hover:text-red-700">Découvrez notre IA <BsStars size={20} /></span>
           </Link>

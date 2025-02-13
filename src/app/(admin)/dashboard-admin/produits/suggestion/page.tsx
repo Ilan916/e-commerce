@@ -33,7 +33,7 @@ export default function ProductSuggestionsPage() {
             <li key={product.id} className="flex items-center justify-between py-4">
               <div className="flex-1">
                 <p className="text-lg font-semibold text-gray-900">{product.name}</p>
-                <p className="text-sm text-gray-500">Produit en attente d'ajout</p>
+                <p className="text-sm text-gray-500">Produit en attente d&apos;ajout</p>
               </div>
 
               <div className="flex gap-2">

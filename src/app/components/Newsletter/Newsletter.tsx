@@ -26,7 +26,7 @@ export default function NewsletterSection() {
               type="submit"
               className="flex-none rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
-              S'inscrire
+              S&apos;inscrire
             </button>
           </div>
           <p className="mt-4 text-sm/6 text-slate-600">
