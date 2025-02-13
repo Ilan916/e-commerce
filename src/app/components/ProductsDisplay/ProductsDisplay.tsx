@@ -64,8 +64,8 @@ export default function ProductsDisplay() {
     fetchProducts();
   }, [selectedCategory, currentPage]);
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(event.target.value);
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
     setCurrentPage(1);
   };
 
