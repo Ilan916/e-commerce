@@ -4,6 +4,7 @@ import { useUserDetails } from "@/app/hooks/useUserDetails";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { useParams, useRouter } from "next/navigation";
 import { FiImage } from "react-icons/fi";
+import { User, Order } from "@/app/types/admin";
 
 export default function UserDetailsPage() {
   const { id } = useParams();
@@ -15,12 +16,12 @@ export default function UserDetailsPage() {
 
   return (
     <section className="mx-auto p-6 rounded-lg">
-      <h1 className="text-3xl font-bold mb-4 text-gray-900">Détails de l'utilisateur</h1>
-      <p className="text-gray-600 mb-6">Informations complètes sur l'utilisateur sélectionné.</p>
+      <h1 className="text-3xl font-bold mb-4 text-gray-900">Détails de l&apos;utilisateur</h1>
+      <p className="text-gray-600 mb-6">Informations complètes sur l&apos;utilisateur sélectionné.</p>
 
       {/* 📌 Informations Client */}
       <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Informations de l'utilisateur</h2>
+        <h2 className="text-xl font-semibold mb-4">Informations de l&apos;utilisateur</h2>
         <p className="text-gray-700"><strong>Nom :</strong> {user.firstname} {user.lastname}</p>
         <p className="text-gray-700"><strong>Email :</strong> {user.email}</p>
         <p className="text-gray-700"><strong>Rôle :</strong> {user.role}</p>
