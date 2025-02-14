@@ -1,11 +1,18 @@
 import { prisma } from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+interface ParamsContext {
+  params: Promise<{ id: string }>;
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: ParamsContext
+) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     if (!id) {
       return NextResponse.json({ error: "ID manquant" }, { status: 400 });
@@ -30,8 +37,12 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: ParamsContext
+) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
@@ -41,8 +52,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }
 
-    const { id } = params;
-    const body = await req.json();
+    const body = await request.json();
     const { name, description, price, stock, imageUrl, categoryId } = body;
 
     const updatedProduct = await prisma.product.update({
@@ -67,8 +77,12 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: ParamsContext
+) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
@@ -77,8 +91,6 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     if (session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }
-
-    const { id } = params;
 
     if (!id) {
       return NextResponse.json({ error: "Product ID manquant" }, { status: 400 });
