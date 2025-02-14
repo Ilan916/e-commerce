@@ -1,4 +1,3 @@
-// app/legal/rgpd/page.tsx
 export const metadata = {
     title: 'Politique de confidentialité - Drive Market',
     description: 'Politique de protection des données de Drive Market'

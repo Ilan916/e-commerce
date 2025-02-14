@@ -1,4 +1,3 @@
-// app/legal/cgv/page.tsx
 export const metadata = {
     title: 'Conditions Générales de Vente - Drive Market',
     description: 'CGV de Drive Market'

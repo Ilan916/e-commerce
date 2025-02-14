@@ -1,4 +1,3 @@
-// app/legal/mentions-legales/page.tsx
 export const metadata = {
     title: 'Mentions Légales - Drive Market',
     description: 'Mentions légales de Drive Market'
