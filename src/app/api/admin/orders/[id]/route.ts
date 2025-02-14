@@ -3,7 +3,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  req: Request, 
+  context: { params: { id: string } } 
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -12,7 +15,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }
 
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id: context.params.id }, 
       include: {
         user: { select: { id: true, email: true, firstname: true, lastname: true, address: true } },
         items: {
