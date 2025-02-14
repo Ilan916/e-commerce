@@ -31,6 +31,7 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
   );
   
   const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [error, setError] = useState<string | null>(null); // Gestion de l'erreur spécifique
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -42,8 +43,10 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
     try {
       await onSubmit(formData);
       setAlert({ type: "success", message: "Produit enregistré avec succès !" });
+      setError(null); // Réinitialiser l'erreur si la soumission réussit
       setTimeout(() => setAlert(null), 3000); // 🔄 Disparition après 3 secondes
-    } catch (error) {
+    } catch (err) {
+      setError("Une erreur est survenue lors de l'enregistrement du produit."); // Gestion de l'erreur ici
       setAlert({ type: "error", message: "Erreur lors de l'enregistrement du produit." });
     }
   };
@@ -150,6 +153,12 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
               </div>
             )}
           </div>
+
+          {error && (
+            <div className="mt-4 p-4 text-red-800 border border-red-300 bg-red-50 rounded-lg">
+              {error}
+            </div>
+          )}
 
           <div className="flex justify-end gap-4 mt-6">
             <button
