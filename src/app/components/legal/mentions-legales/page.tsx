@@ -1,10 +1,15 @@
-export const metadata = {
-    title: 'Mentions Légales - Drive Market',
-    description: 'Mentions légales de Drive Market'
-  }
-  
-  export default function MentionsLegales() {
-    return (
+"use client";
+
+import NavbarAuth from "@/app/components/NavbarAuth/NavbarAuth";
+import NavbarClient from "@/app/components/NavbarClient/NavbarClient";
+import Footer from "@/app/components/Footer/Footer";
+import SidebarAuth from "@/app/components/SidebarAuth/SidebarAuth";
+
+export default function MentionsLegalesPage() {
+  return (
+    <>
+      <NavbarAuth />
+      <NavbarClient />
       <main className="min-h-screen py-8 bg-gray-50">
         <div className="container mx-auto px-4 max-w-4xl">
           <h1 className="text-3xl font-bold mb-6 text-gray-800">Mentions Légales</h1>
@@ -28,17 +33,17 @@ export const metadata = {
                 </p>
               </div>
             </section>
-  
+
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-gray-700">2. Hébergement</h2>
               <div className="prose prose-gray">
                 <p>
                   Le site est hébergé par [hostinger]<br />
-                  [hostinger ]
+                  [hostinger]
                 </p>
               </div>
             </section>
-  
+
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-gray-700">3. Propriété intellectuelle</h2>
               <div className="prose prose-gray">
@@ -53,5 +58,8 @@ export const metadata = {
           </div>
         </div>
       </main>
-    );
-  }
+      <Footer />
+      <SidebarAuth />
+    </>
+  );
+}

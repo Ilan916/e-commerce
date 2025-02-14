@@ -7,7 +7,7 @@ import { CartProvider } from "./context/CartContext"
 
 export const metadata: Metadata = {
   title: "E-commerce",
-  description: "e-commerce website made by Ilan and Victor",
+  description: "e-commerce website made by Ilan and Victor et (Seb un peu genre 2%)",
 };
 
 export default function RootLayout({
