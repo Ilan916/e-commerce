@@ -46,7 +46,11 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
       setError(null); // Réinitialiser l'erreur si la soumission réussit
       setTimeout(() => setAlert(null), 3000); // 🔄 Disparition après 3 secondes
     } catch (err) {
-      setError("Une erreur est survenue lors de l'enregistrement du produit."); // Gestion de l'erreur ici
+      if (err instanceof Error) {
+        setError(err.message); // Si l'erreur est une instance de Error, utilise son message
+      } else {
+        setError("Une erreur est survenue lors de l'enregistrement du produit."); // Si l'erreur n'est pas une instance d'Error, afficher un message générique
+      }
       setAlert({ type: "error", message: "Erreur lors de l'enregistrement du produit." });
     }
   };

@@ -63,7 +63,8 @@ export default function RecettePage() {
       } else {
         setErrorRecipe(data.error || "Impossible de générer la recette.");
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error('Error:', error);
       setErrorRecipe("Erreur lors de la récupération de la recette.");
     } finally {
       setLoadingRecipe(false);
