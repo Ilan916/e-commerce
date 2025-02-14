@@ -13,9 +13,15 @@ export default function Footer() {
               <Link href="/terms" className="hover:text-red-500">Conditions</Link>
             </div>
             <div className="flex md:space-x-6">
-              <Link href="/legal/mentions-legales" className="hover:text-red-500">Mentions légales</Link>
-              <Link href="/legal/rgpd" className="hover:text-red-500">RGPD</Link>
-              <Link href="/legal/cgv" className="hover:text-red-500">CGV</Link>
+              <Link href="/components/legal/mentions-legales" className="hover:text-red-500">
+                Mentions légales
+              </Link>
+              <Link href="/components/legal/rgpd" className="hover:text-red-500">
+                RGPD
+              </Link>
+              <Link href="/components/legal/cgv" className="hover:text-red-500">
+                CGV
+              </Link>
             </div>
           </div>
         </div>
