@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-commerce Project
 
-## Getting Started bloop 4
+Ce projet est une application e-commerce construite avec Next.js, Prisma et TypeScript.
 
-First, run the development server:
+## Prérequis
 
+- Node.js (version 18 ou supérieure)
+- npm ou yarn
+- Une base de données PostgreSQL
+
+## Installation
+
+1. Clonez le repository :
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <votre-repo-url>
+cd e-commerce
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Installez les dépendances :
+```bash
+npm install
+# ou
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configurez les variables d'environnement :
+   - Copiez le fichier `.env.example` en `.env`
+   - Remplissez les variables d'environnement nécessaires :
+     - DATABASE_URL
+     - NEXTAUTH_SECRET
+     - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+     - STRIPE_SECRET_KEY
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Initialisez la base de données :
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## Learn More
+## Lancement du projet
 
-To learn more about Next.js, take a look at the following resources:
+1. Pour lancer le serveur de développement :
+```bash
+npm run dev
+# ou
+yarn dev
+```
+L'application sera accessible sur [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Pour accéder à Prisma Studio (interface de gestion de la base de données) :
+```bash
+npm run prisma:studio
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts disponibles
 
-## Deploy on Vercel
+- `npm run dev` : Lance le serveur de développement
+- `npm run build` : Compile le projet pour la production
+- `npm run start` : Lance le serveur de production
+- `npm run lint` : Vérifie le code avec ESLint
+- `npm run prisma:studio` : Lance l'interface Prisma Studio
+- `npm run prisma:seed` : Remplit la base de données avec des données de test
+- `npm run test` : Lance les tests
+- `npm run test:watch` : Lance les tests en mode watch
+- `npm run test:coverage` : Lance les tests avec la couverture de code
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Le projet inclut différents types de tests :
+```bash
+npm run test:unit        # Tests unitaires
+npm run test:integration # Tests d'intégration
+npm run test:coverage    # Rapport de couverture
+```
+
