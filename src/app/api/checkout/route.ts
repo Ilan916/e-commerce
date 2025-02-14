@@ -1,21 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import Stripe from 'stripe';
 import { prisma } from "@/app/lib/prisma";
+import { ProductFormData } from '../../types';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia',
 });
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-}
-
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    const body = await request.json() as ProductFormData;
+
     const contentType = request.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       return NextResponse.json(
@@ -24,8 +19,6 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = await request.json();
-    
     // Validate request body
     if (!body || !body.items || !Array.isArray(body.items) || !body.userId || !body.userEmail) {
       return NextResponse.json(
@@ -160,14 +153,7 @@ export async function POST(request: Request) {
       orderId: order.id 
     });
 
-  } catch (error) {
-    console.error('Detailed error:', error);
-    return NextResponse.json(
-      { 
-        error: 'Error creating checkout session',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      }, 
-      { status: 500 }
-    );
+  } catch (error: Error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }

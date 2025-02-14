@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Recipe } from '../types';
 
 // Type de la réponse JSON attendue de l'API
 interface RecipeResponse {
@@ -10,13 +11,18 @@ interface RecipeResponse {
   steps: string[];
 }
 
-export function useDishRecognition() {
+interface RecognitionResult {
+  recipe: Recipe;
+  confidence: number;
+}
+
+export default function useDishRecognition() {
   const [recipe, setRecipe] = useState<RecipeResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [hasAnalyzed, setHasAnalyzed] = useState<boolean>(false);
 
-  const analyzeDish = async (imageBase64: string) => {
+  const recognizeDish = async (imageData: File): Promise<RecognitionResult> => {
     setLoading(true);
     setError("");
     setRecipe(null);
@@ -26,7 +32,7 @@ export function useDishRecognition() {
       const response = await fetch("/api/ai/detect-dish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64 }),
+        body: JSON.stringify({ imageBase64: imageData }),
       });
 
       if (!response.ok) {
@@ -43,7 +49,12 @@ export function useDishRecognition() {
     } finally {
       setLoading(false);
     }
+
+    return {
+      recipe: data,
+      confidence: 0.9, // Example confidence value
+    };
   };
 
-  return { recipe, loading, error, hasAnalyzed, analyzeDish };
+  return { recognizeDish };
 }

@@ -1,3 +1,5 @@
+import { ProductFormData } from '../types';
+
 export async function createAdminProduct(productData: any) {
   try {
     const response = await fetch("/api/admin/products", {
@@ -16,4 +18,12 @@ export async function createAdminProduct(productData: any) {
     console.error("❌ Erreur lors de l'ajout du produit :", error);
     throw error;
   }
+}
+
+export default function useCreateAdminProducts() {
+  const createProduct = async (productData: ProductFormData): Promise<void> => {
+    await createAdminProduct(productData);
+  };
+
+  return { createProduct };
 }

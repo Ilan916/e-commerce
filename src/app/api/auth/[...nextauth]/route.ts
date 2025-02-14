@@ -4,6 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "@/app/lib/prisma";
 
+interface CustomSession extends Session {
+  userId?: string;
+  role?: string;
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -58,7 +63,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt" as "jwt",
   },
   pages: {
-    signIn: "/connexion",
+    signIn: "/auth/signin" as const,
     signOut: "/deconnexion",
     error: "/erreur",
     verifyRequest: "/verification",

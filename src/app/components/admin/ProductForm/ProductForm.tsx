@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { ProductFormData } from '../../../types';
 
 interface Product {
   id?: string;
@@ -19,16 +20,14 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ product, onSubmit }: ProductFormProps) {
-  const [formData, setFormData] = useState<Product>(
-    product || {
-      name: "",
-      description: "",
-      price: 0,
-      stock: 0,
-      imageUrl: "",
-      categoryId: "",
-    }
-  );
+  const [formData, setFormData] = useState<ProductFormData>({
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+    imageUrl: '',
+    categoryId: ''
+  });
   
   const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
 

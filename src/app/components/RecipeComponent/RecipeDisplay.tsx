@@ -4,9 +4,10 @@ import React from "react";
 import ProductList from "./ProductList";
 import MissingIngredients from "./MissingIngredients";
 import RecipeSteps from "./RecipeSteps";
+import { Recipe } from '../../types';
 
 interface RecipeDisplayProps {
-  recipe: any;
+  recipe: Recipe;
   addToCart: (product: { id: string; name: string; price: number; imageUrl?: string }) => void;
 }
 
