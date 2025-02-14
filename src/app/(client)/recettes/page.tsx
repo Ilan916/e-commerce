@@ -7,9 +7,11 @@ import { useCartContext } from "@/app/context/CartContext";
 import { NavbarClient, NavbarAuth, SidebarAuthentification, ImageUploader, CartNotification } from "@/app/components";
 import { useDishRecognition } from "@/app/hooks/useDishRecognition";
 
+
+
 export default function RecettePage() {
   const { recipe, loading, error, analyzeDish } = useDishRecognition();
-  const { addItemToCart, cartItems } = useCartContext();
+  const { addItemToCart } = useCartContext();
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -115,7 +117,7 @@ export default function RecettePage() {
               <div className="mt-6">
                 <h4 className="text-lg font-bold text-black mb-4">Ingrédients disponibles :</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {displayedRecipe.available_ingredients.map((item: any) => (
+                  {displayedRecipe.available_ingredients.map((item : any) => (
                     <div key={item.id} className="group relative cursor-pointer transition transform hover:scale-105">
                       <div className="relative h-64 w-full overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
                         {item.imageUrl ? (

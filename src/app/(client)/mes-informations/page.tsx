@@ -2,9 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import Link from "next/link";
 import { useProfile } from "@/app/hooks/useProfile";
-import { FaUser, FaEdit, FaSave, FaTimes, FaHome } from "react-icons/fa";
+import { FaUser, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import { NavbarAuth, NavbarClient, SidebarAuthentification } from "@/app/components";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 

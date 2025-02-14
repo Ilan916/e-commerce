@@ -4,7 +4,6 @@ import { useUserDetails } from "@/app/hooks/useUserDetails";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { useParams, useRouter } from "next/navigation";
 import { FiImage } from "react-icons/fi";
-import { User, Order } from "@/app/types/admin";
 
 export default function UserDetailsPage() {
   const { id } = useParams();
@@ -19,7 +18,7 @@ export default function UserDetailsPage() {
       <h1 className="text-3xl font-bold mb-4 text-gray-900">Détails de l&apos;utilisateur</h1>
       <p className="text-gray-600 mb-6">Informations complètes sur l&apos;utilisateur sélectionné.</p>
 
-      {/* 📌 Informations Client */}
+      {/* Informations Client */}
       <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Informations de l&apos;utilisateur</h2>
         <p className="text-gray-700"><strong>Nom :</strong> {user.firstname} {user.lastname}</p>
@@ -31,7 +30,7 @@ export default function UserDetailsPage() {
         <p className="text-gray-700"><strong>Date d&apos;inscription :</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
       </div>
 
-      {/* 📦 Historique des commandes */}
+      {/* Historique des commandes */}
       <h2 className="text-xl font-semibold mb-4">Historique des commandes</h2>
 
       {user.orders.length === 0 ? (
@@ -49,7 +48,7 @@ export default function UserDetailsPage() {
               </tr>
             </thead>
             <tbody>
-              {user.orders.map((order: any) => (
+              {user.orders.map((order) => (
                 <tr key={order.id} className="text-center">
                   <td className="border px-4 py-2">{order.id}</td>
                   <td className="border px-4 py-2">{order.totalPrice.toFixed(2)} €</td>
@@ -57,7 +56,7 @@ export default function UserDetailsPage() {
                   <td className="border px-4 py-2">{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td className="border px-4 py-2">
                     <ul className="flex flex-col items-center space-y-2">
-                      {order.items.map((item: any) => (
+                      {order.items.map((item) => (
                         <li key={item.product.id} className="flex items-center gap-2">
                           <div className="w-10 h-10 flex items-center justify-center rounded shadow bg-gray-200">
                             {item.product.imageUrl ? (
@@ -82,7 +81,7 @@ export default function UserDetailsPage() {
         </div>
       )}
 
-      {/* 🔙 Bouton retour */}
+      {/* Bouton retour */}
       <div className="mt-6">
         <button
           onClick={() => router.push("/dashboard-admin/utilisateurs")}

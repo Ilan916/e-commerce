@@ -6,13 +6,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia',
 });
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-}
+// interface CartItem {
+//   id: string;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   imageUrl?: string;
+// }
 
 export async function POST(request: Request) {
   try {
@@ -53,12 +53,12 @@ export async function POST(request: Request) {
       }
     }
 
-    const total = items.reduce((sum: number, item: any) => 
+    const total = items.reduce((sum: number, item: { price: number; quantity: number; }) => 
       sum + (item.price * item.quantity), 0
     );
 
     // First verify all products exist
-    const productIds = items.map(item => item.id);
+    const productIds = items.map((item: { id: string; }) => item.id);
 
     // Add debug logging
     console.log('Received product IDs:', productIds);
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
     // Check which products are missing
     const foundProductIds = new Set(existingProducts.map(p => p.id));
-    const missingProductIds = productIds.filter(id => !foundProductIds.has(id));
+    const missingProductIds = productIds.filter((id: string) => !foundProductIds.has(id));
 
     if (missingProductIds.length > 0) {
       console.error('Missing products:', missingProductIds);
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     // Create Stripe session with verified products
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: items.map((item) => ({
+      line_items: items.map((item: { id: string; name: any; imageUrl: any; price: number; quantity: any; }) => ({
         price_data: {
           currency: 'eur',
           product_data: {
@@ -136,7 +136,7 @@ export async function POST(request: Request) {
 
       // Create order items with verified products
       await tx.orderItem.createMany({
-        data: items.map(item => ({
+        data: items.map((item: { id: string; quantity: any; price: any; }) => ({
           orderId: newOrder.id,
           productId: item.id, // Now we know these IDs exist
           quantity: item.quantity,
