@@ -70,6 +70,52 @@ Le projet inclut différents types de tests :
 ```bash
 npm run test:unit        # Tests unitaires
 npm run test:integration # Tests d'intégration
-npm run test:coverage    # Rapport de couverture
 ```
+
+## Liste des membres
+
+Ilan916 -> Ilan Lallemand
+Kaowarstail -> Victor Dané
+
+## Fonctionalités du projet
+
+### Authentification et Gestion des Utilisateurs
+- Inscription et connexion des utilisateurs (Ilan Lallemand)
+- Gestion du profil utilisateur (Victor Dané)
+- Système de rôles (Ilan Lallemand)
+
+### Catalogue Produits
+- Affichage des produits par catégories (Victor Dané)
+- Recherche de produits (Victor Dané)
+- Filtrage et tri des produits (Victor Dané)
+- Gestion du stock en temps réel (Ilan Lallemand)
+
+### Panier et Commandes
+- Ajout/suppression de produits au panier (Victor Dané)
+- Modification des quantités dans le panier (Victor Dané)
+- Processus de commande sécurisé (Victor Dané)
+- Intégration avec Stripe pour les paiements (Victor Dané)
+
+### Administration
+- Interface d'administration sécurisée (Ilan Lallemand)
+- Gestion des produits (CRUD) (Ilan Lallemand)
+- Gestion des catégories (Ilan Lallemand)
+- Gestion des utilisateurs (Ilan Lallemand)
+- Suivi et mise à jour des commandes (Ilan Lallemand)
+- Gestion des stocks (Ilan Lallemand)
+
+### Base de données
+- Modélisation (Victor Dané)
+
+### Intelligence Artificielle
+- Suggestion de recette avec le panier (Ilan Lallemand)
+- Image plat -> recette (Ilan Lallemand)
+
+### Sécurité
+- Protection des routes sensibles (Ilan Lallemand & Victor Dané)
+- Gestion sécurisée des sessions (Ilan Lallemand)
+
+### Autres Fonctionnalités
+- Interface responsive (mobile-first) (Victor Dané)
+- Système de pagination (Victor Dané)
 
