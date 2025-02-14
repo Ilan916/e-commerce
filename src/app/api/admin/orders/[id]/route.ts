@@ -1,13 +1,16 @@
 import { prisma } from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
-  req: Request, 
-  { params }: { params: { id: string } } // Assure-toi que la destructuration est correcte
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
+    // Attendre les params avant de les utiliser
+    const { id } = await context.params;
+    
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
@@ -15,7 +18,7 @@ export async function GET(
     }
 
     const order = await prisma.order.findUnique({
-      where: { id: params.id }, // Accède à `params.id`
+      where: { id }, // Utiliser l'id extrait
       include: {
         user: { select: { id: true, email: true, firstname: true, lastname: true, address: true } },
         items: {
@@ -30,7 +33,6 @@ export async function GET(
       return NextResponse.json({ error: "Commande introuvable" }, { status: 404 });
     }
 
-    // Vérifier si l'utilisateur est admin ou propriétaire de la commande
     if (session.user.role !== "ADMIN" && order.user.id !== session.user.id) {
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }
