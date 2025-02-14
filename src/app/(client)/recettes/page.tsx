@@ -19,7 +19,6 @@ export default function RecettePage() {
   const [generatedRecipe, setGeneratedRecipe] = useState(null);
   const [loadingRecipe, setLoadingRecipe] = useState(false);
   const [errorRecipe, setErrorRecipe] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   // Fonction d'ajout au panier
   const addToCart = (product: { id: string; name: string; price: number; imageUrl?: string }) => {

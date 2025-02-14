@@ -6,22 +6,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia',
 });
 
-interface LineItem {
-  price_data: {
-    currency: string;
-    product_data: {
-      name: string;
-      images?: string[];
-    };
-    unit_amount: number;
-  };
-  quantity: number;
-}
-
-interface MetadataItem {
-  productId: string;
-  quantity: number;
-}
+// interface CartItem {
+//   id: string;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   imageUrl?: string;
+// }
 
 export async function POST(request: Request) {
   try {
@@ -109,23 +100,6 @@ export async function POST(request: Request) {
     );
 
     // Create Stripe session with verified products
-    const lineItems: LineItem[] = items.map((item: { id: string; name: any; imageUrl: any; price: number; quantity: any; }) => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: productMap.get(item.id)?.name || item.name,
-          images: item.imageUrl ? [item.imageUrl] : undefined,
-        },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.quantity,
-    }));
-
-    const metadata: MetadataItem[] = items.map((item: { id: string; quantity: any; }) => ({
-      productId: item.id,
-      quantity: item.quantity,
-    }));
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: items.map((item: { id: string; name: string; imageUrl: string; price: number; quantity: number; }) => ({
@@ -143,7 +117,10 @@ export async function POST(request: Request) {
       success_url: `${request.headers.get('origin')}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.headers.get('origin')}/checkout/cancel`,
       customer_email: userEmail,
-      metadata: metadata,
+      metadata: {
+        userId: userId,
+        orderItems: JSON.stringify(items),
+      },
     });
 
     // Create order using transaction with verified products
