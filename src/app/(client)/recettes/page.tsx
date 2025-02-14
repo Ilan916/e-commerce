@@ -6,8 +6,7 @@ import { useSession } from "next-auth/react";
 import { useCartContext } from "@/app/context/CartContext";
 import { NavbarClient, NavbarAuth, SidebarAuthentification, ImageUploader, CartNotification } from "@/app/components";
 import { useDishRecognition } from "@/app/hooks/useDishRecognition";
-
-
+import { Recipe, Ingredient } from "@/app/types/recipe";
 
 
 export default function RecettePage() {
@@ -17,7 +16,7 @@ export default function RecettePage() {
   const router = useRouter();
 
   const [showNotification, setShowNotification] = useState(false);
-  const [generatedRecipe, setGeneratedRecipe] = useState(null);
+  const [generatedRecipe, setGeneratedRecipe] = useState<Recipe | null>(null);
   const [loadingRecipe, setLoadingRecipe] = useState(false);
   const [errorRecipe, setErrorRecipe] = useState("");
 
@@ -119,7 +118,7 @@ export default function RecettePage() {
               <div className="mt-6">
                 <h4 className="text-lg font-bold text-black mb-4">Ingrédients disponibles :</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {displayedRecipe.available_ingredients.map((item) => (
+                  {displayedRecipe.available_ingredients.map((item: Ingredient) => (
                     <div key={item.id} className="group relative cursor-pointer transition transform hover:scale-105">
                       <div className="relative h-64 w-full overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
                         {item.imageUrl ? (
