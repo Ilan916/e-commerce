@@ -1,5 +1,5 @@
 import { prisma } from "@/app/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
@@ -8,12 +8,11 @@ interface ParamsContext {
 }
 
 export async function GET(
-  request: NextRequest,
-  { params }: ParamsContext
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
   try {
-    // On attend la résolution de la Promise pour obtenir l'id
-    const { id } = await params;
+    const { id } = params;
     
     const session = await getServerSession(authOptions);
 
