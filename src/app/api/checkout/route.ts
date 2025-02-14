@@ -128,7 +128,17 @@ export async function POST(request: Request) {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: lineItems,
+      line_items: items.map((item: { id: string; name: string; imageUrl: string; price: number; quantity: number; }) => ({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: productMap.get(item.id)?.name || item.name,
+            images: item.imageUrl ? [item.imageUrl] : undefined,
+          },
+          unit_amount: Math.round(item.price * 100),
+        },
+        quantity: item.quantity,
+      })),
       mode: 'payment',
       success_url: `${request.headers.get('origin')}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.headers.get('origin')}/checkout/cancel`,
@@ -149,7 +159,7 @@ export async function POST(request: Request) {
 
       // Create order items with verified products
       await tx.orderItem.createMany({
-        data: items.map((item: { id: string; quantity: any; price: any; }) => ({
+        data: items.map((item: { id: string; quantity: number; price: number; }) => ({
           orderId: newOrder.id,
           productId: item.id, // Now we know these IDs exist
           quantity: item.quantity,
