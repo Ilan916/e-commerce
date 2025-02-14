@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: { url: string | URL }) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+export async function GET(request: NextRequest) {
+  const id = request.nextUrl.searchParams.get('id');
 
   if (!id) {
     return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
