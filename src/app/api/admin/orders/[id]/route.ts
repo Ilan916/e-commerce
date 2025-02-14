@@ -3,13 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+interface ParamsContext {
+  params: Promise<{ id: string }>;
+}
+
 export async function GET(
-  req: NextRequest,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: ParamsContext
 ) {
   try {
-    // Attendre les params avant de les utiliser
-    const { id } = await context.params;
+    // On attend la résolution de la Promise pour obtenir l'id
+    const { id } = await params;
     
     const session = await getServerSession(authOptions);
 
@@ -18,7 +22,7 @@ export async function GET(
     }
 
     const order = await prisma.order.findUnique({
-      where: { id }, // Utiliser l'id extrait
+      where: { id },
       include: {
         user: { select: { id: true, email: true, firstname: true, lastname: true, address: true } },
         items: {
