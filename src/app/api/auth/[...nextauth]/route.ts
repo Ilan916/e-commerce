@@ -43,9 +43,9 @@ export const authOptions: NextAuthOptions = {
       session.user.role = token.role as string; // ✅ Ajout du rôle dans la session
       return session;
     },
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }: { token: JWT; user?: Record<string, unknown> }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as string;
         token.firstname = user.firstname;
         token.lastname = user.lastname;
         token.role = user.role; // ✅ Ajout du rôle dans le JWT
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret",
   session: {
-    strategy: "jwt" as "jwt",
+    strategy: "jwt" as const,
   },
   pages: {
     signIn: "/connexion",

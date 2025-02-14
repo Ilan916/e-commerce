@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request) {
+export async function GET(_req: Request) {
   try {
     // Récupération de la session utilisateur
     const session = await getServerSession(authOptions);

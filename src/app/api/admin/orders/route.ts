@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     const status = searchParams.get("status");
     const email = searchParams.get("email");
 
-    const whereClause: any = {};
+    const whereClause: Record<string, unknown> = {};
     if (status) whereClause.status = status;
     if (email) whereClause.user = { email: email };
 

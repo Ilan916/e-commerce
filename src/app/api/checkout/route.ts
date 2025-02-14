@@ -6,13 +6,22 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia',
 });
 
-// interface CartItem {
-//   id: string;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   imageUrl?: string;
-// }
+interface LineItem {
+  price_data: {
+    currency: string;
+    product_data: {
+      name: string;
+      images?: string[];
+    };
+    unit_amount: number;
+  };
+  quantity: number;
+}
+
+interface MetadataItem {
+  productId: string;
+  quantity: number;
+}
 
 export async function POST(request: Request) {
   try {
@@ -100,27 +109,31 @@ export async function POST(request: Request) {
     );
 
     // Create Stripe session with verified products
+    const lineItems: LineItem[] = items.map((item: { id: string; name: any; imageUrl: any; price: number; quantity: any; }) => ({
+      price_data: {
+        currency: 'eur',
+        product_data: {
+          name: productMap.get(item.id)?.name || item.name,
+          images: item.imageUrl ? [item.imageUrl] : undefined,
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.quantity,
+    }));
+
+    const metadata: MetadataItem[] = items.map((item: { id: string; quantity: any; }) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    }));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: items.map((item: { id: string; name: any; imageUrl: any; price: number; quantity: any; }) => ({
-        price_data: {
-          currency: 'eur',
-          product_data: {
-            name: productMap.get(item.id)?.name || item.name,
-            images: item.imageUrl ? [item.imageUrl] : undefined,
-          },
-          unit_amount: Math.round(item.price * 100),
-        },
-        quantity: item.quantity,
-      })),
+      line_items: lineItems,
       mode: 'payment',
       success_url: `${request.headers.get('origin')}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.headers.get('origin')}/checkout/cancel`,
       customer_email: userEmail,
-      metadata: {
-        userId: userId,
-        orderItems: JSON.stringify(items),
-      },
+      metadata: metadata,
     });
 
     // Create order using transaction with verified products
