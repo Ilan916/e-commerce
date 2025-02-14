@@ -3,16 +3,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "@/app/lib/prisma";
 
-// Définition d'un type personnalisé pour l'utilisateur
 interface CustomUser {
   id: string;
   email: string;
   firstname: string;
   lastname: string;
-  role: string; // Ou "Role" si tu utilises un enum pour les rôles
+  role: string;
 }
 
-export const authOptions: NextAuthOptions = {
+export const options: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Email et mot de passe",
@@ -29,25 +28,22 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        // Vérification si l'utilisateur existe et si le mot de passe est correct
         if (user && user.password && await bcrypt.compare(credentials.password, user.password)) {
-          // Retour de l'utilisateur avec les propriétés nécessaires et un type explicite
           return {
             id: user.id,
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
             role: user.role,
-          } as CustomUser; // Utilisation du type CustomUser pour correspondre aux attentes
+          } as CustomUser;
         }
 
-        return null; // Connexion échouée
+        return null;
       },
     }),
   ],
   callbacks: {
     async session({ session, token }) {
-      // Ajout des informations supplémentaires à la session
       session.user.id = token.id as string;
       session.user.firstname = token.firstname as string;
       session.user.lastname = token.lastname as string;
@@ -56,11 +52,10 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        // Ajout des informations de l'utilisateur au JWT
         token.id = user.id as string;
         token.firstname = user.firstname;
         token.lastname = user.lastname;
-        token.role = user.role; // Récupération du rôle
+        token.role = user.role;
       }
       return token;
     },
@@ -77,4 +72,3 @@ export const authOptions: NextAuthOptions = {
     newUser: "/nouveau-compte",
   },
 };
-
