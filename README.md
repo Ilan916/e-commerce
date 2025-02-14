@@ -76,6 +76,7 @@ npm run test:integration # Tests d'intégration
 
 Ilan916 -> Ilan Lallemand
 Kaowarstail -> Victor Dané
+SO-Ctrix -> Sebastian Onise
 
 ## Fonctionalités du projet
 
