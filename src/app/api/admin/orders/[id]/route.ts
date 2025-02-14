@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
   req: Request, 
-  context: { params: { id: string } } 
+  { params }: { params: { id: string } } // Assure-toi que la destructuration est correcte
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export async function GET(
     }
 
     const order = await prisma.order.findUnique({
-      where: { id: context.params.id }, 
+      where: { id: params.id }, // Accède à `params.id`
       include: {
         user: { select: { id: true, email: true, firstname: true, lastname: true, address: true } },
         items: {
