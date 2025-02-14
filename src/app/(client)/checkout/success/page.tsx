@@ -1,10 +1,12 @@
+// CheckoutSuccess.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function SuccessPage() {
+// Composant qui utilise useSearchParams
+function CheckoutContent() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
@@ -32,5 +34,14 @@ export default function SuccessPage() {
         Continue Shopping
       </Link>
     </div>
+  );
+}
+
+// Composant principal avec Suspense
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 }
