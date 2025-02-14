@@ -1,14 +1,19 @@
 import { prisma } from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+interface ParamsContext {
+  params: Promise<{ id: string }>;
+}
+
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: ParamsContext
 ) {
   try {
-    const { id } = params;
+    // On attend la résolution de la Promise pour obtenir l'id
+    const { id } = await params;
     
     const session = await getServerSession(authOptions);
 
