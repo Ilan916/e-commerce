@@ -1,7 +1,7 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { options } from "@/utils/auth.config";
 
 interface ParamsContext {
   params: Promise<{ id: string }>;
@@ -15,7 +15,7 @@ export async function GET(
     // On attend la résolution de la Promise pour obtenir l'id
     const { id } = await params;
     
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
 
     if (!session?.user) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });

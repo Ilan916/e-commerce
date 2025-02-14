@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { options } from "@/utils/auth.config";
 
 const prisma = new PrismaClient();
 
@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: "ID utilisateur manquant" }, { status: 400 });
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
     if (!session?.user) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
@@ -83,7 +83,7 @@ export async function PATCH(
     const { id } = await params;
     if (!id) return NextResponse.json({ error: "ID utilisateur manquant" }, { status: 400 });
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }
@@ -115,7 +115,7 @@ export async function DELETE(
       return NextResponse.json({ error: "ID utilisateur manquant" }, { status: 400 });
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }

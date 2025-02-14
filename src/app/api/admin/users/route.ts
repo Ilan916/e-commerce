@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { options } from "@/utils/auth.config";
 
 const prisma = new PrismaClient();
 
 export async function GET() {
   try {
     // Récupération de la session utilisateur
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
 
     // Vérification de l'authentification
     if (!session?.user) {
