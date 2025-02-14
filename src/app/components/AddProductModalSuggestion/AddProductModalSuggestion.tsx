@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (productData: any) => Promise<void>;
+  onSubmit: (productData: { name: string; description: string; price: string | number; stock: string | number; imageUrl: string; categoryId: string; }) => Promise<void>;
   defaultName: string;
 }
 
@@ -32,7 +32,7 @@ export default function AddProductModal({ isOpen, onClose, onSubmit, defaultName
         const data = await response.json();
         setCategories(data);
       } catch (error) {
-        console.error("❌ Erreur API Catégories :", error);
+        console.error("Erreur API Catégories :", error);
         setError("Impossible de charger les catégories.");
       } finally {
         setLoadingCategories(false);
@@ -61,7 +61,7 @@ export default function AddProductModal({ isOpen, onClose, onSubmit, defaultName
 
     setError(null);
     await onSubmit(formData);
-    setSuccessMessage("✅ Produit ajouté avec succès !");
+    setSuccessMessage("Produit ajouté avec succès !");
 
     // Fermer la modal après confirmation
     setTimeout(() => {
@@ -77,14 +77,14 @@ export default function AddProductModal({ isOpen, onClose, onSubmit, defaultName
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 className="text-xl font-bold mb-4 text-gray-900">Ajouter un produit</h2>
 
-        {/* ✅ Message de succès */}
+        {/* Message de succès */}
         {successMessage && (
           <div className="mb-4 p-3 text-green-800 bg-green-100 border border-green-300 rounded-md">
             {successMessage}
           </div>
         )}
 
-        {/* ❌ Message d'erreur */}
+        {/* Message d'erreur */}
         {error && (
           <div className="mb-4 p-3 text-red-800 bg-red-100 border border-red-300 rounded-md">
             {error}
@@ -149,7 +149,7 @@ export default function AddProductModal({ isOpen, onClose, onSubmit, defaultName
             />
           </label>
 
-          {/* 🔹 Sélection de la catégorie */}
+          {/* Sélection de la catégorie */}
           <label className="block">
             <span className="text-gray-700 font-medium">Catégorie</span>
             <select

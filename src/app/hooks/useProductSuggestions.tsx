@@ -20,7 +20,7 @@ export function useProductSuggestions() {
         const data = await response.json();
         setSuggestions(data);
       } catch (error) {
-        console.error("❌ Erreur API :", error);
+        console.error("Erreur API :", error);
         setError("Impossible de récupérer les suggestions.");
       } finally {
         setLoading(false);
@@ -30,8 +30,8 @@ export function useProductSuggestions() {
     fetchSuggestions();
   }, []);
 
-  // 🔹 Fonction pour ajouter un produit et supprimer la suggestion après ajout
-  const addProduct = async (productData: any) => {
+  // Fonction pour ajouter un produit et supprimer la suggestion après ajout
+  const addProduct = async (productData: { name: string; }) => {
     try {
       console.log("📦 Données envoyées à l'API :", productData);
 
@@ -46,14 +46,14 @@ export function useProductSuggestions() {
         throw new Error(errorResponse.message || "Erreur lors de l'ajout");
       }
 
-      // ✅ Suppression automatique après ajout
+      // Suppression automatique après ajout
       await removeSuggestion(productData.name);
     } catch (error) {
-      console.error("❌ Erreur API :", error);
+      console.error("Erreur API :", error);
     }
   };
 
-  // 🔥 Fonction pour supprimer une suggestion de la liste
+  // Fonction pour supprimer une suggestion de la liste
   const removeSuggestion = async (productName: string) => {
     try {
       const response = await fetch(`/api/admin/product-suggestions`, {
@@ -66,7 +66,7 @@ export function useProductSuggestions() {
 
       setSuggestions((prev) => prev.filter((p) => p.name !== productName));
     } catch (error) {
-      console.error("❌ Erreur API suppression :", error);
+      console.error("Erreur API suppression :", error);
     }
   };
 

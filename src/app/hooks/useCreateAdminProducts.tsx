@@ -1,4 +1,4 @@
-export async function createAdminProduct(productData: any) {
+export async function createAdminProduct(productData: { name: string; description: string; price: string | number; stock: string | number; imageUrl: string; categoryId: string; }) {
   try {
     const response = await fetch("/api/admin/products", {
       method: "POST",
