@@ -1,10 +1,19 @@
 import { prisma } from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+interface ParamsContext {
+  params: Promise<{ id: string }>;
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: ParamsContext
+) {
   try {
+    const { id: orderId } = await params;
+    
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
@@ -13,8 +22,6 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     if (session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
     }
-
-    const orderId = params.id;
 
     // Récupération de la commande et des produits commandés
     const order = await prisma.order.findUnique({
