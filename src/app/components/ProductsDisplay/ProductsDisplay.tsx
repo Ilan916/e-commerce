@@ -64,10 +64,10 @@ export default function ProductsDisplay() {
     fetchProducts();
   }, [selectedCategory, currentPage]);
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
+  // const handleCategoryChange = (category: string) => {
+  //   setSelectedCategory(category);
+  //   setCurrentPage(1);
+  // };
 
   const handleAddToCart = (product: Product) => {
     if (!session?.user?.id) {
@@ -87,8 +87,8 @@ export default function ProductsDisplay() {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
-  const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const handlePageClick = (page: number) => setCurrentPage(page);
 
   return (

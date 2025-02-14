@@ -37,9 +37,17 @@ export function useDishRecognition() {
       const data: RecipeResponse = await response.json();
       setRecipe(data);
       setHasAnalyzed(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
+
+      if (err instanceof Error) {
+        // On s'assure que l'erreur est bien un objet Error
+        setError(err.message || "Erreur inconnue");
+      } else {
+        // En cas d'erreur inconnue, on affiche un message générique
+        setError("Erreur inconnue");
+      }
       console.error("Erreur API :", err);
-      setError(err.message || "Erreur inconnue");
+
     } finally {
       setLoading(false);
     }
