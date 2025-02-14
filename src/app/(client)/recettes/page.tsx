@@ -19,6 +19,7 @@ export default function RecettePage() {
   const [generatedRecipe, setGeneratedRecipe] = useState(null);
   const [loadingRecipe, setLoadingRecipe] = useState(false);
   const [errorRecipe, setErrorRecipe] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fonction d'ajout au panier
   const addToCart = (product: { id: string; name: string; price: number; imageUrl?: string }) => {
@@ -63,7 +64,8 @@ export default function RecettePage() {
       } else {
         setErrorRecipe(data.error || "Impossible de générer la recette.");
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error('Error:', error);
       setErrorRecipe("Erreur lors de la récupération de la recette.");
     } finally {
       setLoadingRecipe(false);
