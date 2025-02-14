@@ -45,8 +45,12 @@ export default function AddProductPage() {
         setSuccess(false);
         router.push("/dashboard-admin/produits");
       }, 2000);
-    } catch (error: any) {
-      setError(error.message || "Erreur lors de l'ajout du produit");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || "Erreur lors de l'ajout du produit");
+      } else {
+        setError("Erreur inconnue");
+      }
     } finally {
       setLoading(false);
     }

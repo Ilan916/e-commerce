@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import CheckoutButton from "@/app/components/CheckoutButton/CheckoutButton";
 import { useCart } from "@/app/hooks/useCart";

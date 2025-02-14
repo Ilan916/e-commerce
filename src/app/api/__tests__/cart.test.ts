@@ -1,7 +1,4 @@
-import request from 'supertest';
-import { app } from '../../../app';
 import { prismaMock } from '../../../__mocks__/prisma';
-import type { CartItemWithProduct } from '../../../types/prisma';
 
 describe('Cart API', () => {
   beforeEach(() => {
