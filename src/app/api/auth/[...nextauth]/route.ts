@@ -6,5 +6,6 @@ import { authOptions } from "@/app/utils/authOptions";
 // Crée un handler pour NextAuth
 const handler = NextAuth(authOptions);
 
+///zaz
 // Exporte les méthodes GET et POST
 export { handler as GET, handler as POST };
