@@ -35,6 +35,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
               : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
           }`}
           aria-current={currentPage === i ? "page" : undefined}
+          aria-label={`Page ${i}`}
         >
           {i}
         </button>
@@ -61,14 +62,15 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
   };
 
   return (
-    <nav className="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0 mt-8">
+    <nav className="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0 mt-8" aria-label="Pagination">
       <div className="-mt-px flex w-0 flex-1">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Page précédente"
         >
-          <ArrowLongLeftIcon aria-hidden="true" className="mr-3 size-5 text-gray-400" />
+          <ArrowLongLeftIcon aria-hidden="true" className="mr-3 h-5 w-5 text-gray-400" />
           Précédent
         </button>
       </div>
@@ -78,9 +80,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Page suivante"
         >
           Suivant
-          <ArrowLongRightIcon aria-hidden="true" className="ml-3 size-5 text-gray-400" />
+          <ArrowLongRightIcon aria-hidden="true" className="ml-3 h-5 w-5 text-gray-400" />
         </button>
       </div>
     </nav>

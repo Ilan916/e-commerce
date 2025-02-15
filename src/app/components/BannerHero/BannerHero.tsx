@@ -13,16 +13,14 @@ export default function BannerHero() {
       {/* Conteneur principal */}
 
       {status === "authenticated" && session?.user ? (
-
-      <div className="container mx-auto px-4 pb-4">
-          <p className="font-bold text-4xl text-slate-800">Bonjour <span className="text-red-600">{session.user.firstname} !</span></p>
-      </div>
+        <div className="container mx-auto px-4 pb-4">
+          <p className="font-bold text-4xl text-gray-900">Bonjour <span className="text-red-600">{session.user.firstname} !</span></p>
+        </div>
       ) : (
         <div className="container mx-auto px-4 pb-4">
-          <p className="font-bold text-4xl text-slate-800">Bonjour !</p>
+          <p className="font-bold text-4xl text-gray-900">Bonjour !</p>
         </div>
       )}
-
 
       {/* Image avec Overlay */}
       <div className="container mx-auto px-4 relative w-full h-96 rounded-3xl overflow-hidden">
@@ -35,7 +33,7 @@ export default function BannerHero() {
         />
 
         {/* Overlay noir semi-transparent */}
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
         {/* Texte et CTA au-dessus de l'image */}
         <div className="absolute inset-0 flex flex-col justify-center items-start px-12 text-white">
@@ -47,7 +45,8 @@ export default function BannerHero() {
           </p>
           <Link
             href="/courses"
-            className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-red-700 transition duration-300"
+            className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-red-700 transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            aria-label="Voir la liste des produits"
           >
             Voir la liste des produits
           </Link>
@@ -58,8 +57,12 @@ export default function BannerHero() {
       <div className="container mx-auto px-4 text-center mt-6 flex flex-col items-center">
         <p className="text-lg text-gray-700 flex items-center gap-2">
           Besoin d&apos;identifier un plat ou d&apos;idées de recettes ?{" "}
-          <Link href="/recettes">
-          <span className="text-red-600 font-semibold flex items-center gap-1 hover:text-red-700">Découvrez notre IA <BsStars size={20} /></span>
+          <Link href="/recettes" aria-label="Découvrez notre IA"
+          className="text-red-600 font-semibold flex items-center gap-1 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+          >
+            <span className="flex items-center gap-1">
+              Découvrez notre IA <BsStars size={20} />
+            </span>
           </Link>
         </p>
       </div>

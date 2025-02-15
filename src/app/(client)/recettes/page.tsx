@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCartContext } from "@/app/context/CartContext";
-import { NavbarClient, NavbarAuth, SidebarAuthentification, ImageUploader, CartNotification } from "@/app/components";
+import { NavbarClient, NavbarAuth, ImageUploader, CartNotification } from "@/app/components";
 import { useDishRecognition } from "@/app/hooks/useDishRecognition";
 import { Recipe, Ingredient } from "@/app/types/recipe";
-
 
 export default function RecettePage() {
   const { recipe, loading, error, analyzeDish } = useDishRecognition();
@@ -39,7 +38,7 @@ export default function RecettePage() {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
-  // 🔹 Fonction pour générer une recette depuis le panier
+  // Fonction pour générer une recette depuis le panier
   const generateRecipeFromCart = async () => {
     if (!session?.user?.id) {
       router.push("/connexion");
@@ -75,8 +74,6 @@ export default function RecettePage() {
 
   return (
     <div className="flex">
-      <SidebarAuthentification />
-
       <div className="flex-1">
         <NavbarAuth />
         <NavbarClient />
@@ -87,7 +84,7 @@ export default function RecettePage() {
           {/* Bloc principal avec deux colonnes */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Bloc reconnaissance d’image */}
-            <div className="p-6 border rounded-lg shadow">
+            <div className="p-6 border-2 border-dashed border-gray-300 rounded-lg shadow cursor-pointer">
               <h2 className="text-lg font-semibold mb-4 text-black">Reconnaissance de Plat</h2>
               <ImageUploader onImageUpload={analyzeDish} />
               {loading && <p className="text-gray-500 mt-4">Analyse en cours...</p>}
@@ -95,14 +92,17 @@ export default function RecettePage() {
             </div>
 
             {/* Bloc suggestions de recettes */}
-            <div className="p-6 border rounded-lg shadow">
+            <div className="p-6 border-2 border-dashed border-gray-300 rounded-lg shadow cursor-pointer">
               <h2 className="text-lg font-semibold mb-4 text-black">Suggestions de Recettes</h2>
+              <div className="flex flex-col items-center gap-4 border-2 border-dashed border-gray-300 p-6 rounded-lg cursor-pointer">
               <button
                 onClick={generateRecipeFromCart}
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                aria-label="Proposer une recette avec mon panier"
               >
                 Proposer une recette avec mon panier
               </button>
+              </div>
               {loadingRecipe && <p className="text-gray-500 mt-4">Génération en cours...</p>}
               {errorRecipe && <p className="text-red-500 mt-4">{errorRecipe}</p>}
             </div>
@@ -140,7 +140,8 @@ export default function RecettePage() {
                       <div className="mt-6">
                         <button
                           onClick={() => addToCart(item)}
-                          className="relative flex w-full items-center justify-center rounded-md border border-transparent bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-900 transition"
+                          className="relative flex w-full items-center justify-center rounded-md border border-transparent bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-900 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                          aria-label={`Ajouter ${item.name} au panier`}
                         >
                           Ajouter au panier
                         </button>
