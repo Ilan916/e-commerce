@@ -41,15 +41,35 @@ export default function ImageUploader({ onImageUpload }: ImageUploaderProps) {
     if (file) handleFile(file);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLLabelElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      document.getElementById('fileInput')?.click();
+    }
+  };
+
   return (
     <div 
       className="flex flex-col items-center gap-4 border-2 border-dashed border-gray-300 p-6 rounded-lg cursor-pointer"
       onDragOver={(e) => e.preventDefault()} // Permet le drop
       onDrop={handleDrop} // Gère le drop
+      aria-label="Zone de téléchargement d'image"
     >
-      <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id="fileInput" />
-      <label htmlFor="fileInput" className="bg-black text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
-      Choisir une image ou glisser-déposer
+      <input 
+        type="file" 
+        accept="image/*" 
+        onChange={handleFileChange} 
+        className="hidden" 
+        id="fileInput" 
+        aria-label="Sélectionner une image"
+      />
+      <label 
+        htmlFor="fileInput" 
+        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+        tabIndex={0} // Rendre le label focusable
+        onKeyDown={handleKeyDown} // Gérer la touche Entrée et Espace
+      >
+        Choisir une image ou glisser-déposer
       </label>
 
       {error && <p className="text-red-500">{error}</p>}

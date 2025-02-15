@@ -97,7 +97,7 @@ export default function CheckoutButton({ items }: CheckoutButtonProps) {
     <button
       onClick={handleCheckout}
       disabled={isLoading}
-      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold disabled:bg-blue-300"
+      className="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-800 transition font-semibold disabled:bg-blue-300"
     >
       {isLoading ? "Processing..." : `Pay (${items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} €)`}
     </button>

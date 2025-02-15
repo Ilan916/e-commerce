@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useProfile } from "@/app/hooks/useProfile";
 import { FaUser, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import { NavbarAuth, NavbarClient, SidebarAuthentification } from "@/app/components";
+import { NavbarAuth, NavbarClient } from "@/app/components";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 export default function MesInformations() {
@@ -30,7 +30,6 @@ export default function MesInformations() {
     <>
       <NavbarAuth />
       <NavbarClient />
-      <SidebarAuthentification />
       <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white shadow-lg rounded-xl overflow-hidden">
@@ -45,7 +44,8 @@ export default function MesInformations() {
                 {!isEditing ? (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors duration-200 text-lg"
+                    className="flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors duration-200 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    aria-label="Modifier les informations"
                   >
                     <FaEdit className="w-5 h-5" />
                     <span>Modifier</span>
@@ -53,7 +53,8 @@ export default function MesInformations() {
                 ) : (
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors duration-200 text-lg"
+                    className="flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors duration-200 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    aria-label="Annuler la modification"
                   >
                     <FaTimes className="w-5 h-5" />
                     <span>Annuler</span>
@@ -64,12 +65,12 @@ export default function MesInformations() {
 
             <div className="p-8">
               {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg flex items-center text-lg">
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg flex items-center text-lg" aria-live="assertive">
                   <span className="flex-1">{error}</span>
                 </div>
               )}
               {success && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-600 rounded-lg flex items-center text-lg">
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-600 rounded-lg flex items-center text-lg" aria-live="polite">
                   <span className="flex-1">Profil mis à jour avec succès !</span>
                 </div>
               )}
@@ -87,6 +88,7 @@ export default function MesInformations() {
                         }
                         disabled={!isEditing}
                         className="mt-2 block w-full rounded-lg border-gray-200 shadow-sm focus:border-red-500 focus:ring-red-500 disabled:bg-gray-50 disabled:text-gray-500 text-lg py-3 px-4"
+                        aria-label="Prénom"
                       />
                     </label>
                   </div>
@@ -102,6 +104,7 @@ export default function MesInformations() {
                         }
                         disabled={!isEditing}
                         className="mt-2 block w-full rounded-lg border-gray-200 shadow-sm focus:border-red-500 focus:ring-red-500 disabled:bg-gray-50 disabled:text-gray-500 text-lg py-3 px-4"
+                        aria-label="Nom"
                       />
                     </label>
                   </div>
@@ -117,6 +120,7 @@ export default function MesInformations() {
                         }
                         disabled={!isEditing}
                         className="mt-2 block w-full rounded-lg border-gray-200 shadow-sm focus:border-red-500 focus:ring-red-500 disabled:bg-gray-50 disabled:text-gray-500 text-lg py-3 px-4"
+                        aria-label="Adresse"
                       />
                     </label>
                   </div>
@@ -129,6 +133,7 @@ export default function MesInformations() {
                         value={formData.email}
                         disabled
                         className="mt-2 block w-full rounded-lg border-gray-200 shadow-sm bg-gray-50 text-gray-500 text-lg py-3 px-4"
+                        aria-label="Email"
                       />
                     </label>
                   </div>
@@ -144,6 +149,7 @@ export default function MesInformations() {
                         }
                         disabled={!isEditing}
                         className="mt-2 block w-full rounded-lg border-gray-200 shadow-sm focus:border-red-500 focus:ring-red-500 disabled:bg-gray-50 disabled:text-gray-500 text-lg py-3 px-4"
+                        aria-label="Téléphone"
                       />
                     </label>
                   </div>
@@ -153,7 +159,8 @@ export default function MesInformations() {
                   <div className="flex justify-end pt-6">
                     <button
                       type="submit"
-                      className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-colors duration-200 shadow-md text-lg"
+                      className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-colors duration-200 shadow-md text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                      aria-label="Enregistrer les modifications"
                     >
                       <FaSave className="w-5 h-5" />
                       <span>Enregistrer</span>

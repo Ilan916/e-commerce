@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useState, ReactNode } from "react";
+import { SidebarAuthentification } from "../components";
 
 interface SidebarContextType {
   isSidebarOpen: boolean;
@@ -19,6 +20,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
   return (
     <SidebarContext.Provider value={{ isSidebarOpen, openSidebar, closeSidebar }}>
       {children}
+      {isSidebarOpen && <SidebarAuthentification />} {/* Rendre la sidebar uniquement si elle est ouverte */}
     </SidebarContext.Provider>
   );
 }

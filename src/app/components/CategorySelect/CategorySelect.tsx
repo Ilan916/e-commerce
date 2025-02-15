@@ -18,7 +18,8 @@ export default function CategorySelect({ categories, selectedCategory, onChange 
           name="category"
           value={selectedCategory || ""}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-md bg-white py-2 pl-3 pr-10 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
+          className="w-full appearance-none rounded-md bg-white py-2 pl-3 pr-10 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 sm:text-sm"
+          aria-label="Sélecteur de catégorie"
         >
           <option value="">Toutes les catégories</option>
           {categories.map((category) => (

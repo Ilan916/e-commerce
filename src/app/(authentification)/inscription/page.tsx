@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Inscription() {
   const [firstname, setFirstname] = useState("");
@@ -13,6 +14,7 @@ export default function Inscription() {
   const [address, setAddress] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ export default function Inscription() {
       }
 
       setSuccess(true);
+      router.push("/connexion");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -53,112 +56,127 @@ export default function Inscription() {
       style={{ backgroundImage: "url('/assets/inscription-img.jpg')" }}
     >
       <div className="max-w-lg w-full bg-white shadow-lg rounded-lg p-8 bg-opacity-95 backdrop-blur-lg">
-        <h1 className="text-3xl text-slate-800 font-bold text-center mb-6">
+        <h1 className="text-3xl text-gray-900 font-bold text-center mb-6">
           Créer un compte
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" aria-label="Formulaire d'inscription">
           {/* Prénom */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="firstname" className="block text-gray-700 font-medium">
               Prénom :
-              <input
-                type="text"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="firstname"
+              type="text"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Prénom"
+            />
           </div>
 
           {/* Nom */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="lastname" className="block text-gray-700 font-medium">
               Nom :
-              <input
-                type="text"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="lastname"
+              type="text"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Nom"
+            />
           </div>
 
           {/* Email */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="email" className="block text-gray-700 font-medium">
               Email :
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Email"
+            />
           </div>
 
           {/* Mot de passe */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="password" className="block text-gray-700 font-medium">
               Mot de passe :
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Mot de passe"
+            />
           </div>
 
           {/* Date de naissance */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="dateOfBirth" className="block text-gray-700 font-medium">
               Date de naissance :
-              <input
-                type="date"
-                value={dateOfBirth}
-                onChange={(e) => setDateOfBirth(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="dateOfBirth"
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Date de naissance"
+            />
           </div>
 
           {/* Numéro de téléphone */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="phoneNumber" className="block text-gray-700 font-medium">
               Numéro de téléphone :
-              <input
-                type="tel"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="phoneNumber"
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Numéro de téléphone"
+            />
           </div>
 
           {/* Adresse */}
           <div className="relative group">
-            <label className="block text-gray-700 font-medium">
+            <label htmlFor="address" className="block text-gray-700 font-medium">
               Adresse :
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
-                required
-              />
             </label>
+            <input
+              id="address"
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="autofill:shadow-[inset_0_0_0px_100px_white] w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600 bg-white autofill:bg-white"
+              required
+              aria-label="Adresse"
+            />
           </div>
 
           {/* Bouton d'inscription */}
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
+            className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            aria-label="S'inscrire"
           >
             S&apos;inscrire
           </button>
@@ -167,7 +185,7 @@ export default function Inscription() {
         {/* Erreur ou succès */}
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
         {success && (
-          <p className="mt-4 text-green-600 text-center">Inscription réussie !</p>
+          <p className="mt-4 text-green-700 text-center">Inscription réussie !</p>
         )}
 
         {/* Lien de connexion */}
@@ -175,7 +193,8 @@ export default function Inscription() {
           Déjà un compte ?{" "}
           <Link
             href="/connexion"
-            className="text-red-600 hover:underline font-semibold"
+            className="text-red-600 hover:underline font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            aria-label="Se connecter"
           >
             Se connecter
           </Link>
