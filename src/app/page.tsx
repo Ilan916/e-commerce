@@ -5,7 +5,6 @@ export default async function Home() {
   return (
     <div>
       <NavbarAuth />
-      <SidebarAuthentification />
       <NavbarClient />
       <BannerHero />
       <ServicesInfos />

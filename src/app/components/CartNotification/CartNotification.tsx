@@ -39,6 +39,7 @@ export default function CartNotification({ show, onClose }: CartNotificationProp
                   type="button"
                   onClick={onClose}
                   className="rounded-md bg-white text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                  aria-label="Fermer la notification"
                 >
                   <span className="sr-only">Fermer</span>
                   <XMarkIcon className="h-5 w-5" aria-hidden="true" />

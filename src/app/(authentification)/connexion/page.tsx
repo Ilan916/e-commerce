@@ -42,7 +42,7 @@ export default function Connexion() {
           src="/assets/connexion-img.jpg"
           width={500}
           height={750}
-          alt="Picture of the author"
+          alt="Image de connexion"
           className="w-full h-full object-cover"
         />
       </div>
@@ -56,7 +56,8 @@ export default function Connexion() {
             {/* Flèche retour */}
             <button
               onClick={() => router.push("/")}
-              className="flex items-center text-gray-600 hover:text-black transition"
+              className="flex items-center text-gray-600 hover:text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+              aria-label="Retour à l'accueil"
             >
               <FaArrowLeft />
             </button>
@@ -70,46 +71,52 @@ export default function Connexion() {
                 <span>Espace</span>
                 <FaLock />
               </div>
-              <span className="text-green-600 font-semibold">100% sécurisé</span>
+              <span className="text-green-700 font-semibold">100% sécurisé</span>
             </div>
           </header>
 
           {/* Contenu formulaire (centré dans la zone restante) */}
           <div className="flex items-center justify-center">
             <div className="flex flex-col items-center justify-center px-8 w-full pb-24">
-              <h1 className="text-3xl text-slate-800 font-bold mb-4">Se connecter</h1>
-              <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+              <h1 className="text-3xl text-gray-900 font-bold mb-4">Se connecter</h1>
+              <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4" aria-label="Formulaire de connexion">
                 <div className="relative group">
-                  <label
-                    className="block text-slate-800 font-medium group-focus-within:text-red-600"
-                  >
+                  <label htmlFor="email" className="block text-gray-900 font-medium group-focus-within:text-red-600">
                     E-mail :
-                    <input
-                      className="w-full h-12 mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 autofill:shadow-[inset_0_0_0px_100px_white]"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
                   </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="Entrez votre e-mail"
+                    autoComplete="email"
+                    className="w-full h-12 mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 autofill:shadow-[inset_0_0_0px_100px_white]"
+                    aria-label="Adresse e-mail"
+                  />
                 </div>
                 <div className="relative group">
-                  <label
-                    className="block text-slate-800 font-medium group-focus-within:text-red-600"
-                  >
+                  <label htmlFor="password" className="block text-gray-900 font-medium group-focus-within:text-red-600">
                     Mot de passe :
-                    <input
-                      className="w-full h-12 mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 autofill:shadow-[inset_0_0_0px_100px_white]"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
                   </label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="Entrez votre mot de passe"
+                    className="w-full h-12 mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 autofill:shadow-[inset_0_0_0px_100px_white]"
+                    aria-label="Mot de passe"
+                  />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
+                  className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                  aria-label="Se connecter"
                 >
                   Se connecter
                 </button>
@@ -119,7 +126,8 @@ export default function Connexion() {
               {/* Bouton "Se créer un compte" en secondary */}
               <Link
                 href="/inscription"
-                className="max-w-md w-full mt-4 py-2 px-4 border border-red-600 text-red-600 font-semibold rounded-lg text-center hover:bg-red-50 transition"
+                className="max-w-md w-full mt-4 py-2 px-4 border border-red-600 text-red-600 font-semibold rounded-lg text-center hover:bg-red-50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                aria-label="Se créer un compte"
               >
                 Se créer un compte
               </Link>

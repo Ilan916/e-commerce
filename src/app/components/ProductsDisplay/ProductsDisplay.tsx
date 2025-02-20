@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCartContext } from "@/app/context/CartContext";
-import { Pagination, CategorySelect, CartNotification } from "@/app/components"
+import { Pagination, CategorySelect, CartNotification } from "@/app/components";
 import { IoBagOutline } from "react-icons/io5"; // Icône de fallback
 
 interface Product {
@@ -64,11 +64,6 @@ export default function ProductsDisplay() {
     fetchProducts();
   }, [selectedCategory, currentPage]);
 
-  // const handleCategoryChange = (category: string) => {
-  //   setSelectedCategory(category);
-  //   setCurrentPage(1);
-  // };
-
   const handleAddToCart = (product: Product) => {
     if (!session?.user?.id) {
       router.push("/connexion");
@@ -87,8 +82,6 @@ export default function ProductsDisplay() {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
-  // const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  // const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const handlePageClick = (page: number) => setCurrentPage(page);
 
   return (
@@ -101,7 +94,12 @@ export default function ProductsDisplay() {
           <label htmlFor="category" className="block text-sm font-medium text-gray-700">
             Filtrer par catégorie :
           </label>
-          <CategorySelect categories={categories} selectedCategory={selectedCategory} onChange={setSelectedCategory} />
+          <CategorySelect
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onChange={setSelectedCategory}
+            aria-label="Sélecteur de catégorie"
+          />
         </div>
 
         {/* Liste des produits */}
@@ -136,9 +134,9 @@ export default function ProductsDisplay() {
                 <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
                   <div
                     aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
+                    className="absolute inset-x-0 bottom-0 h-36 "
                   />
-                  <p className="relative text-lg font-semibold text-white">
+                  <p className="relative text-lg font-semibold text-red-600">
                     {product.price.toFixed(2)} €
                   </p>
                 </div>
@@ -148,7 +146,8 @@ export default function ProductsDisplay() {
                       e.stopPropagation(); // Empêche la navigation quand on clique sur "Ajouter au panier"
                       handleAddToCart(product);
                     }}
-                    className="relative flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-2 text-sm font-medium text-white hover:bg-red-700"
+                    className="relative flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                    aria-label={`Ajouter ${product.name} au panier`}
                   >
                     Ajouter au panier
                   </button>
@@ -158,14 +157,15 @@ export default function ProductsDisplay() {
           </div>
         )}
 
-        {/* 🔹 Pagination */}
+        {/* Pagination */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageClick}
+          aria-label="Pagination"
         />
 
-        {/* 🔹 Notification d'ajout au panier */}
+        {/* Notification d'ajout au panier */}
         <CartNotification show={showNotification} onClose={() => setShowNotification(false)} />
       </div>
     </div>

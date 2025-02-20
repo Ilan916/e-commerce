@@ -9,7 +9,7 @@ import { useCartContext } from "@/app/context/CartContext";
 
 export default function NavbarClient() {
   const [isOpen, setIsOpen] = useState(false);
-  const { total } = useCartContext(); // ✅ On récupère le prix dynamique
+  const { total } = useCartContext();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -22,7 +22,7 @@ export default function NavbarClient() {
         <div className="flex items-center">
           <Link
             href="/"
-            className="text-red-600 font-bold text-2xl focus:outline-none"
+            className="text-red-600 font-bold text-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
             aria-label="Retour à l'accueil"
           >
             Drive Market
@@ -31,22 +31,38 @@ export default function NavbarClient() {
 
         {/* Menu principal */}
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/courses" className="text-slate-700 hover:text-red-600 font-semibold px-3 py-1">
+          <Link 
+            href="/courses" 
+            className="text-gray-800 hover:text-red-600 font-semibold px-3 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+            aria-label="Voir les courses"
+          >
             Courses
           </Link>
-          <Link href="/recettes" className="text-gray-700 flex items-center gap-1 hover:text-red-600 font-semibold px-3 py-1">
+          <Link 
+            href="/recettes" 
+            className="text-gray-800 flex items-center gap-1 hover:text-red-600 font-semibold px-3 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+            aria-label="Voir les recettes"
+          >
             <BsStars />
             Recettes
           </Link>
-          <Link href="/cart" className="flex items-center gap-1 text-gray-700 hover:text-red-600 font-semibold px-3 py-1">
+          <Link 
+            href="/cart" 
+            className="flex items-center gap-1 text-gray-800 hover:text-red-600 font-semibold px-3 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+            aria-label="Voir le panier"
+          >
             <IoBagOutline size={20} />
-            <span className="text-red-500 font-bold">{total.toFixed(2)} €</span>
+            <span className="text-red-600 font-bold">{total.toFixed(2)} €</span>
           </Link>
         </div>
 
         {/* Bouton menu mobile */}
         <div className="md:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-gray-700 hover:text-red-600 focus:outline-none">
+          <button 
+            onClick={toggleMenu} 
+            className="text-gray-800 hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          >
             {isOpen ? <HiX size={28} /> : <HiMenu size={28} />}
           </button>
         </div>

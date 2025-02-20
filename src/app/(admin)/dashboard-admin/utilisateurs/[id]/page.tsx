@@ -64,9 +64,10 @@ export default function UserDetailsPage() {
                                 src={item.product.imageUrl}
                                 alt={item.product.name}
                                 className="w-full h-full object-cover rounded"
+                                aria-label={`Image de ${item.product.name}`}
                               />
                             ) : (
-                              <FiImage className="text-gray-500 text-xl" />
+                              <FiImage className="text-gray-500 text-xl" aria-label="Image non disponible" />
                             )}
                           </div>
                           <span>{item.product.name} - {item.quantity}x</span>
@@ -85,7 +86,8 @@ export default function UserDetailsPage() {
       <div className="mt-6">
         <button
           onClick={() => router.push("/dashboard-admin/utilisateurs")}
-          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition"
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-600"
+          aria-label="Retour à la liste des utilisateurs"
         >
           Retour
         </button>

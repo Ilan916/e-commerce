@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import ProductInfos from '@/app/components/ProductInfos/ProductInfos';
-import { NavbarClient, NavbarAuth, SidebarAuthentification, Footer } from "@/app/components";
+import { NavbarClient, NavbarAuth, Footer } from "@/app/components";
 
 const ProductPage: React.FC = () => {
   const { id } = useParams();
@@ -26,7 +26,6 @@ const ProductPage: React.FC = () => {
     <>
       <NavbarAuth />
       <NavbarClient />
-      <SidebarAuthentification />
       <ProductInfos product={product} />
       <Footer />
     </>

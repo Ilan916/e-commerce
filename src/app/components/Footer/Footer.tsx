@@ -7,9 +7,27 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h3 className="text-lg font-bold mb-4 md:mb-0">Drive Market</h3>
           <div className="flex space-x-6">
-            <Link href="/about" className="hover:text-red-500">À propos</Link>
-            <Link href="/contact" className="hover:text-red-500">Contact</Link>
-            <Link href="/terms" className="hover:text-red-500">Conditions</Link>
+            <Link 
+              href="/about" 
+              className="hover:text-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+              aria-label="À propos de Drive Market"
+            >
+              À propos
+            </Link>
+            <Link 
+              href="/contact" 
+              className="hover:text-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+              aria-label="Contactez Drive Market"
+            >
+              Contact
+            </Link>
+            <Link 
+              href="/terms" 
+              className="hover:text-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600" 
+              aria-label="Conditions d'utilisation de Drive Market"
+            >
+              Conditions
+            </Link>
           </div>
         </div>
         <p className="text-gray-400">© {new Date().getFullYear()} Drive Market. Tous droits réservés.</p>

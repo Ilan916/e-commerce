@@ -4,6 +4,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 // Composant qui utilise useSearchParams
 function CheckoutContent() {
@@ -18,7 +19,7 @@ function CheckoutContent() {
   }, [sessionId]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -29,7 +30,8 @@ function CheckoutContent() {
       <p className="mb-4">Thank you for your purchase.</p>
       <Link 
         href="/courses" 
-        className="text-blue-600 hover:text-blue-800 underline"
+        className="text-blue-600 hover:text-blue-800 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        aria-label="Continue Shopping"
       >
         Continue Shopping
       </Link>
@@ -40,7 +42,7 @@ function CheckoutContent() {
 // Composant principal avec Suspense
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div aria-live="polite">Loading...</div>}>
       <CheckoutContent />
     </Suspense>
   );

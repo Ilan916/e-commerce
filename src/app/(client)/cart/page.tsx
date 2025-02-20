@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import CheckoutButton from "@/app/components/CheckoutButton/CheckoutButton";
 import { useCart } from "@/app/hooks/useCart";
-import { NavbarAuth, NavbarClient, SidebarAuthentification } from "@/app/components";
+import { NavbarAuth, NavbarClient } from "@/app/components";
 import { useCartContext } from "@/app/context/CartContext";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
@@ -55,7 +55,6 @@ const CartPage = () => {
 
   return (
     <>
-      <SidebarAuthentification />
       <NavbarAuth />
       <NavbarClient />
       <div className="max-w-4xl mx-auto p-6">
@@ -73,6 +72,7 @@ const CartPage = () => {
                         src={item.imageUrl} 
                         alt={item.name} 
                         className="w-16 h-16 object-cover rounded"
+                        aria-label={`Image de ${item.name}`}
                       />
                     )}
                     <div>
@@ -80,23 +80,26 @@ const CartPage = () => {
                       <div className="flex items-center space-x-2 mt-2">
                         <button
                           onClick={() => handleQuantityChange(item.id, Math.max(1, item.quantity - 1))}
-                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                           disabled={cartLoading}
+                          aria-label={`Diminuer la quantité de ${item.name}`}
                         >
                           -
                         </button>
                         <span className="mx-2">{item.quantity}</span>
                         <button
                           onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                           disabled={cartLoading}
+                          aria-label={`Augmenter la quantité de ${item.name}`}
                         >
                           +
                         </button>
                         <button
                           onClick={() => handleRemoveItem(item.id)}
-                          className="ml-4 text-red-500 hover:text-red-700"
+                          className="ml-4 text-red-600 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                           disabled={cartLoading}
+                          aria-label={`Supprimer ${item.name} du panier`}
                         >
                           Supprimer
                         </button>
@@ -106,7 +109,7 @@ const CartPage = () => {
                   <p className="font-semibold">{(item.price * item.quantity).toFixed(2)} €</p>
                 </div>
               ))}
-              <div className="mt-6 pt-4 border-t">
+              <div className="mt-6 pt-4">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-lg font-semibold">Total :</span>
                   <span className="text-2xl font-bold">{total.toFixed(2)} €</span>

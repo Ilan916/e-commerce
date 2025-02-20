@@ -50,7 +50,7 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
     <div>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8">
         
-        {/* 🧭 Breadcrumb */}
+        {/* Breadcrumb */}
         <div className="lg:max-w-lg lg:self-start">
           <nav aria-label="Breadcrumb">
             <ol role="list" className="flex items-center space-x-2">
@@ -62,18 +62,18 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
             </ol>
           </nav>
 
-          {/* 🏷️ Titre & Description */}
+          {/* Titre & Description */}
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             {product.name}
           </h1>
           <p className="mt-4 text-base text-gray-500">{product.description}</p>
 
-          {/* 💰 Prix & Avis */}
+          {/* Prix & Avis */}
           <div className="mt-4 flex items-center">
             <p className="text-lg font-semibold text-gray-900 sm:text-xl">{product.price.toFixed(2)} €</p>
           </div>
 
-          {/* ✅ Stock */}
+          {/* Stock */}
           <div className="mt-4 flex items-center">
             <CheckIcon className="h-5 w-5 text-green-500" />
             <p className="ml-2 text-sm text-gray-500">
@@ -81,7 +81,7 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
             </p>
           </div>
 
-          {/* 🔢 Sélection Quantité */}
+          {/* Sélection Quantité */}
           <div className="mt-6">
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
               Quantité :
@@ -93,27 +93,30 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
               max={product.stock}
               value={quantity}
               onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
-              className="mt-2 w-20 px-3 py-2 border rounded-md text-center"
+              className="mt-2 w-20 px-3 py-2 border rounded-md text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+              aria-label="Sélectionner la quantité"
             />
           </div>
 
-          {/* 🛒 Bouton Ajouter au Panier */}
+          {/* Bouton Ajouter au Panier */}
           <button
-            className="mt-6 flex w-full items-center justify-center rounded-md bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-red-700"
+            className="mt-6 flex w-full items-center justify-center rounded-md bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
             onClick={handleAddToCart}
             disabled={cartLoading || product.stock === 0}
+            aria-label="Ajouter au panier"
           >
             Ajouter au panier
           </button>
         </div>
 
-        {/* 🖼️ Image Produit */}
+        {/* Image Produit */}
         <div className="mt-10 lg:col-start-2 lg:mt-0 lg:self-center">
           {product.imageUrl ? (
             <img
               src={product.imageUrl}
               alt={product.name}
               className="aspect-square w-full rounded-lg object-cover"
+              aria-label={`Image de ${product.name}`}
             />
           ) : (
             <div className="flex items-center justify-center aspect-square w-full bg-gray-200 rounded-lg">
@@ -122,7 +125,7 @@ const ProductInfos: React.FC<ProductInfosProps> = ({ product }) => {
           )}
         </div>
 
-        {/* 🔔 Notification */}
+        {/* Notification */}
         <CartNotification show={showNotification} onClose={() => setShowNotification(false)} />
       </div>
     </div>
