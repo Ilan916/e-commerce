@@ -59,7 +59,7 @@ export default function RecipeAIPromo() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <img
             alt="Aperçu de l'IA"
-            src="https://tailwindui.com/plus/img/component-images/project-app-screenshot.png"
+            src="/assets/image-feature.png"
             width={2432}
             height={1442}
             className="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10"
